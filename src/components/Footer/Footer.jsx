@@ -39,7 +39,7 @@ export default function Footer() {
       <div className={style.fcontainer}>
         <hr className={style.hr} />
         <h4 className={style.copyright}>
-          © Copyright 2023 by Raouf, All rights reserved.
+          © Copyright 2024 by Raouf, All rights reserved.
         </h4>
       </div>
     </>
