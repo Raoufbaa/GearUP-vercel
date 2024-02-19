@@ -1,0 +1,530 @@
+"use client";
+import { useEffect, useState, useContext } from "react";
+import { Context } from "@/components/context";
+import { useSession } from "next-auth/react";
+import style from "@/app/Checkout/page.module.css";
+import Image from "next/image";
+import ButtomHeader from "@/components/ButtomHeader/ButtomHeader";
+import banner from "@/assets/checkout/banner.svg";
+
+export default function Checkout() {
+  const { data: session } = useSession();
+  let cartData =
+    typeof localStorage !== "undefined" &&
+    JSON.parse(localStorage.getItem("cart_data"));
+  const [paymentMethod, setPaymentMethod] = useState("COD");
+  const [message, setMessage] = useState("");
+  const [errmessage, setErrMessage] = useState("");
+  const { setCartData, setCartDataReset, setSelectedAddress, selectedAddress } =
+    useContext(Context);
+  const [storedSelectedAddress, setStoredSelectedAddress] = useState(
+    typeof localStorage !== "undefined" &&
+      JSON.parse(localStorage.getItem("selectedAddress"))
+  );
+  // State for form fields
+  const [newAddress, setNewAddress] = useState({
+    first_name: "",
+    last_name: "",
+    phone: "",
+    company: "",
+    address_1: "",
+    address_2: "",
+    city: "",
+    province: "",
+    postal_code: "",
+  });
+
+  // Handler for form field changes
+  const handleAddressChange = (e) => {
+    const { name, value } = e.target;
+    setNewAddress((prevAddress) => ({
+      ...prevAddress,
+      [name]: value,
+    }));
+  };
+  const handlePaymentChange = (e) => {
+    setPaymentMethod(e.target.value);
+  };
+
+  const updateCartWithNewAddress = (event) => {
+    // Define the URL for the POST request
+    event.preventDefault();
+    const url = `${process.env.NEXT_PUBLIC_BACKEND}/store/carts/${cartData.id}`;
+
+    // Make the POST request to update the shipping address
+    fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        shipping_address: newAddress,
+      }),
+    })
+      .then((response) => {
+        if (response.ok) {
+          // Handle success response here
+          console.log("Shipping address updated successfully");
+          // Update the local storage with the new address
+          setStoredSelectedAddress(newAddress);
+          localStorage.setItem("selectedAddress", JSON.stringify(newAddress));
+        } else {
+          // Handle error response here
+          console.error("Failed to update shipping address");
+        }
+      })
+      .catch((error) => {
+        // Handle network or other errors
+        console.error("Error:", error);
+      });
+  };
+
+  useEffect(() => {
+    if (cartData && session && cartData.customer_id === session.id) {
+      if (storedSelectedAddress) {
+        // Define the URL for the POST request
+        const url = `${process.env.NEXT_PUBLIC_BACKEND}/store/carts/${cartData.id}`;
+
+        // Make the POST request to update the shipping address
+        fetch(url, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            shipping_address: {
+              first_name: storedSelectedAddress.first_name,
+              last_name: storedSelectedAddress.last_name,
+              phone: storedSelectedAddress.phone,
+              company: storedSelectedAddress.company,
+              address_1: storedSelectedAddress.address_1,
+              address_2: storedSelectedAddress.address_2,
+              city: storedSelectedAddress.city,
+              country_code: "dz",
+              province: storedSelectedAddress.province,
+              postal_code: storedSelectedAddress.postal_code,
+            },
+          }),
+        })
+          .then((response) => {
+            if (response.ok) {
+              // Handle success response here
+              console.log("Shipping address updated successfully");
+            } else {
+              // Handle error response here
+              console.error("Failed to update shipping address");
+            }
+          })
+          .catch((error) => {
+            // Handle network or other errors
+            console.error("Error:", error);
+          });
+      }
+    }
+  }, [cartData, session, storedSelectedAddress]);
+  useEffect(() => {
+    if (session && storedSelectedAddress) {
+      if (session.id !== storedSelectedAddress.customer_id) {
+        setStoredSelectedAddress(null);
+        localStorage.setItem(
+          "selectedAddress",
+          JSON.stringify(storedSelectedAddress)
+        );
+        console.log("cleared ");
+      }
+    }
+  }, [session, storedSelectedAddress]);
+
+  const submitPaymentForm = async (event) => {
+    event.preventDefault();
+    console.log("chargily payment");
+  };
+  const submitPayment = async (event) => {
+    event.preventDefault();
+    const url = `${process.env.NEXT_PUBLIC_BACKEND}/store/carts/${cartData.id}/payment-sessions`;
+    const urlcomplete = `${process.env.NEXT_PUBLIC_BACKEND}/store/carts/${cartData.id}/complete`;
+
+    try {
+      await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({}),
+      });
+      console.log("Payment session created for cart ID:", cartData.id);
+    } catch (error) {
+      console.error("Error creating payment session:", error);
+    }
+    try {
+      await fetch(urlcomplete, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({}),
+      });
+      console.log("cart completed ");
+      setMessage("Checkout Compleat");
+    } catch (error) {
+      console.error("Error completeing cart");
+      setErrMessage("Failed To Compleate Checkout");
+    }
+    setCartDataReset((prev) => prev + 1);
+    setCartData(null);
+  };
+  useEffect(() => {
+    setTimeout(() => {
+      if (!session) {
+        setSelectedAddress(null);
+        localStorage.removeItem("selectedAddress");
+      } else {
+        localStorage.setItem(
+          "selectedAddress",
+          JSON.stringify(selectedAddress)
+        );
+      }
+    }, 4000);
+  }, [session, selectedAddress, setSelectedAddress]);
+
+  console.log("saved add from localstorage", storedSelectedAddress);
+  return (
+    <div>
+      <h1 className={style.CWtitle}>Check Out</h1>
+      <hr className={style.CWhr} />
+      <main className={style.flex}>
+        <div className={style.infocard}>
+          <div className={style.forms}>
+            {!storedSelectedAddress ? (
+              <div className={style.lex}>
+                <form className={style.form}>
+                  <h2 className={style.title}>Add a New Shipping Address</h2>
+                  <div className={style.formGroup}>
+                    <div className={style.inputRow}>
+                      <input
+                        className={style.input}
+                        type="text"
+                        id="first_name"
+                        name="first_name"
+                        placeholder="First Name"
+                        value={newAddress.first_name}
+                        onChange={handleAddressChange}
+                      />
+                      <input
+                        className={style.input}
+                        type="text"
+                        id="last_name"
+                        name="last_name"
+                        placeholder="Last Name"
+                        value={newAddress.last_name}
+                        onChange={handleAddressChange}
+                      />
+                    </div>
+                  </div>
+
+                  <div className={style.formGroup}>
+                    <input
+                      className={style.input}
+                      type="text"
+                      id="phone"
+                      name="phone"
+                      placeholder="Phone"
+                      value={newAddress.phone}
+                      onChange={handleAddressChange}
+                    />
+                  </div>
+
+                  <div className={style.formGroup}>
+                    <input
+                      className={style.input}
+                      type="text"
+                      id="company"
+                      name="company"
+                      placeholder="Company"
+                      value={newAddress.company}
+                      onChange={handleAddressChange}
+                    />
+                  </div>
+
+                  <div className={style.formGroup}>
+                    <div className={style.inputRow}>
+                      <input
+                        className={style.input}
+                        type="text"
+                        id="address_1"
+                        name="address_1"
+                        placeholder="Address Line 1"
+                        value={newAddress.address_1}
+                        onChange={handleAddressChange}
+                      />
+                      <input
+                        className={style.input}
+                        type="text"
+                        id="address_2"
+                        name="address_2"
+                        placeholder="Address Line 2"
+                        value={newAddress.address_2}
+                        onChange={handleAddressChange}
+                      />
+                    </div>
+                  </div>
+
+                  <div className={style.formGroup}>
+                    <input
+                      className={style.input}
+                      type="text"
+                      id="city"
+                      name="city"
+                      placeholder="City"
+                      value={newAddress.city}
+                      onChange={handleAddressChange}
+                    />
+                  </div>
+
+                  <div className={style.formGroup}>
+                    <input
+                      className={style.input}
+                      type="text"
+                      id="province"
+                      name="province"
+                      placeholder="Province"
+                      value={newAddress.province}
+                      onChange={handleAddressChange}
+                    />
+                  </div>
+
+                  <div className={style.formGroup}>
+                    <input
+                      className={style.input}
+                      type="text"
+                      id="postal_code"
+                      name="postal_code"
+                      placeholder="Postal Code"
+                      value={newAddress.postal_code}
+                      onChange={handleAddressChange}
+                    />
+                  </div>
+
+                  <button
+                    className={style.btn}
+                    onClick={updateCartWithNewAddress}
+                  >
+                    Update Address
+                  </button>
+                </form>
+                <div>
+                  <p className={style.products}>Products</p>
+                  {cartData && cartData.items.length > 0
+                    ? cartData.items.map((item, itemIndex) => (
+                        <div key={itemIndex}>
+                          <div>
+                            <section>
+                              <h4 className={style.Pname}>
+                                {item.title}{" "}
+                                <span className={style.Pricespan}>
+                                  {item.quantity}X{item.subtotal}
+                                </span>
+                              </h4>
+                            </section>
+                          </div>
+                        </div>
+                      ))
+                    : null}
+                  <p className={style.total}>
+                    {cartData ? (
+                      <span>SubTotal: {cartData.subtotal} DZD</span>
+                    ) : null}
+                  </p>
+                  <p className={style.total}>
+                    {cartData ? (
+                      <span> TaxTotal:{cartData.tax_total} DZD</span>
+                    ) : null}
+                  </p>
+                  <p className={style.total}>
+                    {cartData ? (
+                      <span>
+                        Total:{" "}
+                        <span className={style.Pricespan}>
+                          {cartData.total} DZD
+                        </span>{" "}
+                      </span>
+                    ) : null}
+                  </p>
+                  <hr className={style.hr} />
+                  <h2 className={style.payemntM}>Payment Method</h2>
+                  <form>
+                    <div className={style.formGroup}>
+                      <select
+                        className={style.methode}
+                        id="paymentMethod"
+                        name="paymentMethod"
+                        value={paymentMethod}
+                        onChange={handlePaymentChange}
+                      >
+                        <option value="COD">Cash On Delivery</option>
+                        <option value="EDAHABIA">EDAHABIA</option>
+                        <option value="CIB">CIB</option>
+                      </select>
+                    </div>
+                    <button
+                      className={style.btnm}
+                      onClick={
+                        paymentMethod === "COD"
+                          ? submitPayment
+                          : submitPaymentForm
+                      }
+                    >
+                      {paymentMethod === "COD"
+                        ? "Proceed Orders"
+                        : "Proceed Secure Payment"}
+                    </button>
+                    {!message ? null : (
+                      <h1 className={style.succempty}>{message}</h1>
+                    )}
+                    {!errmessage ? null : (
+                      <h1 className={style.ERRempty}>{errmessage}</h1>
+                    )}
+                  </form>{" "}
+                </div>
+              </div>
+            ) : (
+              <div className={style.flexx}>
+                <Image
+                  src={banner}
+                  className={style.banner}
+                  width={550}
+                  height={215}
+                  alt="banner"
+                />
+                <h5 className={style.productss}>Saved Shipping Addresses</h5>
+                <ul>
+                  <li className={style.list}>
+                    {storedSelectedAddress.first_name}{" "}
+                    {storedSelectedAddress.last_name},{" "}
+                    {storedSelectedAddress.address_1},{" "}
+                    {storedSelectedAddress.city}
+                  </li>
+                  <div>
+                    <p className={style.productss}>Products</p>
+                    {cartData && cartData.items.length > 0
+                      ? cartData.items.map((item, itemIndex) => (
+                          <div key={itemIndex}>
+                            <div>
+                              <section>
+                                <h4 className={style.Pnamee}>
+                                  {item.title}{" "}
+                                  <span className={style.Pricespan}>
+                                    {item.quantity}X{item.subtotal}
+                                  </span>
+                                </h4>
+                              </section>
+                            </div>
+                          </div>
+                        ))
+                      : null}
+                    <p className={style.totall}>
+                      {cartData ? (
+                        <span>SubTotal: {cartData.subtotal} DZD</span>
+                      ) : null}
+                    </p>
+                    <p className={style.totall}>
+                      {cartData ? (
+                        <span> TaxTotal:{cartData.tax_total} DZD</span>
+                      ) : null}
+                    </p>
+                    <p className={style.totall}>
+                      {cartData ? (
+                        <span>
+                          Total:{" "}
+                          <span className={style.Pricespan}>
+                            {cartData.total} DZD
+                          </span>{" "}
+                        </span>
+                      ) : null}
+                    </p>
+                    <hr className={style.hrr} />
+                    <h2 className={style.payemntMM}>Payment Method</h2>
+                    <form>
+                      <div className={style.formGroup}>
+                        <select
+                          className={style.methodee}
+                          id="paymentMethod"
+                          name="paymentMethod"
+                          value={paymentMethod}
+                          onChange={handlePaymentChange}
+                        >
+                          <option value="COD">Cash On Delivery</option>
+                          <option value="EDAHABIA">EDAHABIA</option>
+                          <option value="CIB">CIB</option>
+                        </select>
+                      </div>
+                      <button
+                        className={style.btnmm}
+                        onClick={
+                          paymentMethod === "COD"
+                            ? submitPayment
+                            : submitPaymentForm
+                        }
+                      >
+                        {paymentMethod === "COD"
+                          ? "Proceed Orders"
+                          : "Proceed Secure Payment"}
+                      </button>
+                      <h1 className={style.succempty}>fff</h1>
+                      <h1 className={style.ERRempty}>{errmessage}</h1>
+                    </form>{" "}
+                  </div>
+                </ul>
+              </div>
+            )}
+          </div>
+        </div>
+        <div className={style.card}>
+          {session ? (
+            cartData ? (
+              <div>
+                {cartData.customer_id === session.id ? (
+                  <div className={style}>
+                    {cartData.items.length > 0 ? (
+                      cartData.items.map((item, itemIndex) => (
+                        <div className={style.CartItem} key={itemIndex}>
+                          <div>
+                            <section>
+                              <Image
+                                src={item.thumbnail}
+                                width={180}
+                                height={200}
+                                alt=""
+                              />
+                              <h6 className={style.carttitle}>{item.title}</h6>
+                              <h6 className={style.cartVariant}>
+                                {item.description}
+                              </h6>
+                              <h6 className={style.QtyPrice}>
+                                {item.quantity} X <span>{item.subtotal}</span>{" "}
+                                DZA
+                              </h6>
+                            </section>
+                          </div>
+                        </div>
+                      ))
+                    ) : (
+                      <p className={style.empty}>No items in this cart</p>
+                    )}
+                  </div>
+                ) : (
+                  <p className={style.empty}>Your cart is empty.</p>
+                )}
+              </div>
+            ) : (
+              <p className={style.empty}>No Data Found.</p>
+            )
+          ) : (
+            <p className={style.empty}>Sign in to view your cart.</p>
+          )}
+        </div>
+      </main>
+      <ButtomHeader />
+    </div>
+  );
+}

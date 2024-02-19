@@ -1,0 +1,69 @@
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+:root {
+  --background: white;
+  --backgroundtransparent: rgba(184, 184, 184, 0.459);
+  --secondColor:#c0c0c0;
+  --thirdcolor:rgb(247, 247, 247);
+  --footer:rgb(241, 241, 241);
+  --mainTextColor:#B88E2F;
+  --textColor:#2b2b2b;
+  --foreground: black;
+  --buttomMenu:#d8d8d8;
+  --Menubackground:black;
+  --hero:#FFF3E3;
+  --heroMobile:#fff3e3b4;
+  --herohoverd:#fff3e38e;
+  --border:#e7e7e7;
+  --filter:none;
+  --selection:#f1bc00;
+  --menuboxshadow:0px 2px 37px var(--foreground) ;
+}
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+::selection {
+  background-color: var(--selection);
+  color: white
+}
+
+::-webkit-scrollbar {
+  height: .2rem;
+  width: .5rem;
+  color: red;
+  background-color: rgb(214, 214, 214);
+  border-radius: 1px;
+  
+}
+::-webkit-scrollbar-thumb {
+  background: rgb(32, 32, 32);
+  padding: 10px;
+  border-radius: 1px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(107, 107, 107)
+}
+
+[data-theme='dark'] {
+  --background: #1b1b1b;
+  --backgroundtransparent: rgb(58 58 58 / 47%);
+  --secondColor: rgba(33, 33, 33, 1);
+  --thirdcolor: rgba(33, 33, 33, 1);
+  --footer: rgb(15, 15, 15);
+  --textColor: white;
+  --foreground: white;
+  --hero: #212121;
+  --buttomMenu: #161616;
+  --heroMobile:#212121e0;
+  --herohoverd: #212121d2;
+  --border: #424242;
+  --filter: contrast(0);
+  --selection:red;
+  --menuboxshadow:0px 25px 37px var(--foreground);
+  --Menubackground:white;
+}
