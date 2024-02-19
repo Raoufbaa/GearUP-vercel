@@ -399,6 +399,9 @@ margin: 0px 20px;
     font-size: 1rem;
 }
 @media (max-width:768px) {
+    .loadingivv{
+        width: 375px;
+    }
     .ERRempty{
         margin-left: 30px;
     }
@@ -485,8 +488,6 @@ margin: 0px 20px;
         min-width: 382px;
         width: 382px;
     }
-
-   
 
     .input {
         margin-left: 0px;

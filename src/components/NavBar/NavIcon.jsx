@@ -202,7 +202,7 @@ export default function NavIcon() {
   useEffect(() => {
     const timerId = setTimeout(() => {
       setLoadingTimer((prev) => !prev);
-    }, 3000);
+    }, 333000);
 
     return () => clearTimeout(timerId); // Cleanup function to clear the timer when component unmounts or when the effect re-runs
   }, []);
