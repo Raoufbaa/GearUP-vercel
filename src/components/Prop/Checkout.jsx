@@ -48,7 +48,9 @@ export default function Checkout() {
 
   const updateCartWithNewAddress = (event) => {
     // Define the URL for the POST request
-    event.preventDefault();
+    if (event) {
+      event.preventDefault();
+    }
     const url = `${process.env.NEXT_PUBLIC_BACKEND}/store/carts/${cartData.id}`;
 
     // Make the POST request to update the shipping address
@@ -140,11 +142,34 @@ export default function Checkout() {
     console.log("chargily payment");
   };
   const submitPayment = async (event) => {
-    event.preventDefault();
-    const url = `${process.env.NEXT_PUBLIC_BACKEND}/store/carts/${cartData.id}/payment-sessions`;
-    const urlcomplete = `${process.env.NEXT_PUBLIC_BACKEND}/store/carts/${cartData.id}/complete`;
+    if (event) {
+      event.preventDefault();
+    }
+
+    // Check if the necessary user information is available
+    if (
+      !newAddress.first_name ||
+      !newAddress.last_name ||
+      !newAddress.phone ||
+      !newAddress.address_1 ||
+      !newAddress.city ||
+      !newAddress.province ||
+      !newAddress.postal_code
+    ) {
+      // If any of the required information is missing, display an error message and return
+      setErrMessage("Hey! Looks like we need your address.");
+      setTimeout(() => {
+        setErrMessage();
+      }, 4000);
+      return;
+    }
 
     try {
+      await updateCartWithNewAddress();
+
+      const url = `${process.env.NEXT_PUBLIC_BACKEND}/store/carts/${cartData.id}/payment-sessions`;
+      const urlcomplete = `${process.env.NEXT_PUBLIC_BACKEND}/store/carts/${cartData.id}/complete`;
+
       await fetch(url, {
         method: "POST",
         headers: {
@@ -153,10 +178,43 @@ export default function Checkout() {
         body: JSON.stringify({}),
       });
       console.log("Payment session created for cart ID:", cartData.id);
+
+      await fetch(urlcomplete, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({}),
+      });
+      console.log("Cart completed ");
+      setMessage("Checkout Complete");
     } catch (error) {
-      console.error("Error creating payment session:", error);
+      console.error("Error handling payment:", error);
+      setErrMessage("Failed To Complete Checkout");
+      setTimeout(() => {
+        setErrMessage();
+      }, 4000);
     }
+    setCartDataReset((prev) => prev + 1);
+    setCartData(null);
+  };
+
+  const submitPaymentSaved = async (event) => {
+    event.preventDefault();
+
     try {
+      const url = `${process.env.NEXT_PUBLIC_BACKEND}/store/carts/${cartData.id}/payment-sessions`;
+      const urlcomplete = `${process.env.NEXT_PUBLIC_BACKEND}/store/carts/${cartData.id}/complete`;
+
+      await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({}),
+      });
+      console.log("Payment session created for cart ID:", cartData.id);
+
       await fetch(urlcomplete, {
         method: "POST",
         headers: {
@@ -167,8 +225,8 @@ export default function Checkout() {
       console.log("cart completed ");
       setMessage("Checkout Compleat");
     } catch (error) {
-      console.error("Error completeing cart");
-      setErrMessage("Failed To Compleate Checkout");
+      console.error("Error handling payment:", error);
+      setErrMessage("Failed To Complete Checkout");
     }
     setCartDataReset((prev) => prev + 1);
     setCartData(null);
@@ -304,13 +362,13 @@ export default function Checkout() {
                       onChange={handleAddressChange}
                     />
                   </div>
-
+                  {/* 
                   <button
                     className={style.btn}
                     onClick={updateCartWithNewAddress}
                   >
                     Update Address
-                  </button>
+                  </button> */}
                 </form>
                 <div>
                   <p className={style.products}>Products</p>
@@ -462,7 +520,7 @@ export default function Checkout() {
                         className={style.btnmm}
                         onClick={
                           paymentMethod === "COD"
-                            ? submitPayment
+                            ? submitPaymentSaved
                             : submitPaymentForm
                         }
                       >

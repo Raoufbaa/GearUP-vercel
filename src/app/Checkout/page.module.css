@@ -236,7 +236,7 @@
 }
 
 .ERRempty {
-    height: 37px;
+    height:fit-content;
     font-size: 1.1rem;
     padding-top: 3px;
     text-align: center;

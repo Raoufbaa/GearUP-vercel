@@ -39,11 +39,22 @@
     color: var(--textColor);
     text-decoration: none;
     margin: 15px 0px;
+    transition: ease-in .5s;
+}
+.link:hover{
+    margin-left: 20px;
+    color: #ffcb00;
+    transition: ease-in .5s;
 }
 .socials{
     color: var(--textColor);
     text-decoration: none;
     margin: 15px 10px;
+}
+.socials:hover {
+    margin-left: 20px;
+    color: #ffcb00;
+    transition: ease-in .5s;
 }
 .Social{
     display: flex;
