@@ -119,7 +119,6 @@ export default function NavIcon() {
           const { cart } = await response.json();
 
           setCartData(cart);
-          console.log("donee");
           setCustomer(cart.customer_id);
           if (cartEffect !== 0) {
             localStorage.setItem("cart_data", JSON.stringify(cart));
@@ -207,8 +206,6 @@ export default function NavIcon() {
     return () => clearTimeout(timerId); // Cleanup function to clear the timer when component unmounts or when the effect re-runs
   }, []);
 
-  // console.log("artdata", cartData);
-  // console.log("SESSION", session);
   return (
     <div className={style.icons}>
       {session ? (

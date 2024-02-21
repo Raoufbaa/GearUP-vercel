@@ -5,7 +5,6 @@ import dynamic from "next/dynamic";
 import Image from "next/image";
 import itsDarkIcon from "@/assets/nav/loading.svg";
 import style from "@/app/Checkout/page.module.css";
-
 const CartData = dynamic(() => import("@/components/Prop/Checkout"), {
   ssr: false,
 });

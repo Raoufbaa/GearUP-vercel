@@ -90,7 +90,6 @@ export default function Products({ name }) {
       }
     }
   };
-  console.log("backend", process.env.NEXT_PUBLIC_COUNTRY_ID);
   return (
     <div>
       <h1 className={style.maintitle}>{name}</h1>
