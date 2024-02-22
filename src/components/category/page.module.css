@@ -99,12 +99,14 @@
 
     .btn {
         font-size: 1.5rem;
+        top: -17px;
     }
     .imgbC{
         height: 197px;
         width: 124px;
         margin: 0px;
     }
+  
     .bcontainer{
        gap: 0px;
     }
@@ -115,8 +117,23 @@
 
 @media (max-width:600px) {}
 
-@media (max-width:450px) {}
+@media (max-width:450px) {
+.imgC {
+        width: 170px;
+        height: 236px;
+    }
+}
 
-@media (max-width:393px) {}
+@media (max-width:393px) {
+.imgC {
+     width: 163px;
+     height: 225px;
+    }
+}
 
-@media (max-width:375px) {}
+@media (max-width:375px) {
+.imgC {
+     width: 144px;
+     height: 210px;
+     }
+}
