@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import style from "./page.module.css";
 import Link from "next/link";
@@ -10,6 +10,8 @@ import Hoddie from "@/assets/category/Hoodie.jpg";
 import diningImage from "@/assets/category/Mask Group.png";
 import livingImage from "@/assets/category/Image-living room.png";
 import bedroomImage from "@/assets/category/bedroom.png";
+import { RiArrowLeftDoubleFill } from "react-icons/ri";
+import { RiArrowRightDoubleLine } from "react-icons/ri";
 
 export default function Category() {
   const allCategories = [
@@ -26,23 +28,43 @@ export default function Category() {
     { name: "Living", image: livingImage },
   ];
 
-  const [displayedCategories, setDisplayedCategories] = useState(
-    allCategories.slice(0, 3)
-  );
+  const [displayedCategories, setDisplayedCategories] = useState([]);
   const [startIndex, setStartIndex] = useState(0);
+  const [itemsPerCategory, setItemsPerCategory] = useState(3);
+
+  useEffect(() => {
+    const updateItemsPerCategory = () => {
+      if (window.innerWidth < 768) {
+        setItemsPerCategory(2);
+      } else {
+        setItemsPerCategory(3);
+      }
+    };
+
+    updateItemsPerCategory();
+    window.addEventListener("resize", updateItemsPerCategory);
+
+    return () => {
+      window.removeEventListener("resize", updateItemsPerCategory);
+    };
+  }, []);
+
+  useEffect(() => {
+    setDisplayedCategories(
+      allCategories.slice(startIndex, startIndex + itemsPerCategory)
+    );
+  }, [startIndex, itemsPerCategory]);
 
   const showNextCategories = () => {
-    const newIndex = startIndex + 3;
+    const newIndex = startIndex + itemsPerCategory;
     if (newIndex < allCategories.length) {
-      setDisplayedCategories(allCategories.slice(newIndex, newIndex + 3));
       setStartIndex(newIndex);
     }
   };
 
   const showPreviousCategories = () => {
-    const newIndex = startIndex - 3;
+    const newIndex = startIndex - itemsPerCategory;
     if (newIndex >= 0) {
-      setDisplayedCategories(allCategories.slice(newIndex, newIndex + 3));
       setStartIndex(newIndex);
     }
   };
@@ -59,7 +81,7 @@ export default function Category() {
           onClick={showPreviousCategories}
           disabled={startIndex === 0}
         >
-          Previous
+          <RiArrowLeftDoubleFill />
         </button>
         {displayedCategories.map((category, index) => (
           <div className={style.card} key={index}>
@@ -81,9 +103,9 @@ export default function Category() {
         <button
           onClick={showNextCategories}
           className={style.btn}
-          disabled={startIndex + 3 >= allCategories.length}
+          disabled={startIndex + itemsPerCategory >= allCategories.length}
         >
-          Next
+          <RiArrowRightDoubleLine />
         </button>
       </div>
       <div className={style.navigation}></div>
