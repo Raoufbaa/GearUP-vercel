@@ -78,6 +78,7 @@
     font-size: 3rem;
     position: relative;
     top: -15px;
+    cursor: pointer;
 }
 .bcontainer{
     display: flex;
