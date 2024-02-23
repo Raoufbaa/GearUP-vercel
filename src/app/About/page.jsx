@@ -23,13 +23,16 @@ const About = () => {
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.6, ease: "easeInOut" }}
       >
-        <h1 className={styles.title}>Discover Furniro</h1>
+        <h1 className={styles.title}>
+          Discover {process.env.NEXT_PUBLIC_NAME}
+        </h1>
         <p className={styles.description}>
-          Welcome to the world of exquisite furniture at Furniro. We take pride
-          in curating an extensive collection of furniture pieces that blend
-          aesthetics, functionality, and durability. Our team comprises
-          passionate individuals dedicated to transforming your spaces into
-          expressions of your personality and style.
+          Welcome to the world of exquisite furniture at{" "}
+          {process.env.NEXT_PUBLIC_NAME}. We take pride in curating an extensive
+          collection of furniture pieces that blend aesthetics, functionality,
+          and durability. Our team comprises passionate individuals dedicated to
+          transforming your spaces into expressions of your personality and
+          style.
         </p>
         <div className={styles.imageContainer}>
           <Image
@@ -67,7 +70,7 @@ const About = () => {
 
         {/* Contact information */}
         <p className={styles.description}>
-          Email: info@furniro.com
+          Email: info@{process.env.NEXT_PUBLIC_NAME}.com
           <br />
           Phone: +2130785848575
         </p>

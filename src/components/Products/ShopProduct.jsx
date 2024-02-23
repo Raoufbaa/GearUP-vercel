@@ -17,8 +17,8 @@ export default function Products() {
       ) || 3
   );
   const [selectedPriceRange, setSelectedPriceRange] = useState("");
-  const [sortBy, setSortBy] = useState(""); // Sorting option: 'name' or 'price'
-  const [sortOrder, setSortOrder] = useState("asc"); // Sorting order: 'asc' or 'desc'
+  const [sortBy, setSortBy] = useState("");
+  const [sortOrder, setSortOrder] = useState("asc");
   const [loading, setLoading] = useState(true);
   const [windowWidth, setWindowWidth] = useState(0);
 

@@ -8,7 +8,7 @@ export default function Footer() {
     <>
       <div className={style.Maincontianer}>
         <div className={style.info}>
-          <h1 className={style.title}>Furniro</h1>
+          <h1 className={style.title}>{process.env.NEXT_PUBLIC_NAME}</h1>
           <p className={style.desc}>
             400 University Drive Suite 200 Coral Gables, FL 33134 USA
           </p>

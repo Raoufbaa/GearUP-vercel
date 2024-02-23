@@ -18,7 +18,9 @@ export default function NavBar() {
             height={50}
             alt=""
           />
-          <span className={style.spanlogo}>Maréchal</span>
+          <span className={style.spanlogo}>
+            {process.env.NEXT_PUBLIC_NAME}l
+          </span>
         </Link>
         <div className={style.linkscontainer}>
           {links.map((links) => (
