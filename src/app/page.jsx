@@ -25,7 +25,8 @@ export default function Home() {
 
     return () => clearTimeout(timer);
   }, []);
-
+  console.log("url", process.env.NEXT_PUBLIC_BACKEND);
+  console.log("env", process.env);
   return (
     <main className={styles.main}>
       {loadingTimer ? <HeroStatic /> : <Hero />}

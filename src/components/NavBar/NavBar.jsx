@@ -14,13 +14,11 @@ export default function NavBar() {
           <Image
             className={style.img}
             src={navlogo}
-            width={50}
+            width={40}
             height={50}
             alt=""
           />
-          <span className={style.spanlogo}>
-            {process.env.NEXT_PUBLIC_NAME}l
-          </span>
+          <span className={style.spanlogo}>{process.env.NEXT_PUBLIC_NAME}</span>
         </Link>
         <div className={style.linkscontainer}>
           {links.map((links) => (
