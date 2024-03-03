@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import style from "./page.module.css";
 import Link from "next/link";
+import imgloading from "@/assets/product/loading.svg";
 
 export default function Products(params) {
   const [products, setProducts] = useState([]);
@@ -218,7 +219,15 @@ export default function Products(params) {
       <div className={style.container}>
         <div className={style.cards}>
           {loading ? (
-            <p>Loading...</p>
+            <>
+              <Image
+                className={style.CloadingIMG}
+                src={imgloading}
+                width={120}
+                height={120}
+                alt=""
+              />
+            </>
           ) : (
             <>
               {sortedProducts.map((product) => (
