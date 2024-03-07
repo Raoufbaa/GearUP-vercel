@@ -5,18 +5,25 @@
 }
 :root {
   --background: white;
+  --backgroundLinearGradiant: linear-gradient(91deg, #fffef9, #d9dfe9, #f7faff, #fff9ff);
+  --DarkLinearGradiant: linear-gradient(91deg, #ebe4e4, #d0d7e2, #e8ecf3, #eee6ee);
   --backgroundtransparent: rgba(184, 184, 184, 0.459);
   --secondColor:#c0c0c0;
+  --Micon:#1f1f1f1c;
   --thirdcolor:rgb(247, 247, 247);
   --footer:rgb(241, 241, 241);
-  --mainTextColor:#B88E2F;
+  --mainTextColor:#3a0117;
   --textColor:#2b2b2b;
   --foreground: black;
   --buttomMenu:#d8d8d8;
   --Menubackground:black;
   --hero:#FFF3E3;
   --heroMobile:#fff3e3b4;
-  --herohoverd:#fff3e38e;
+  --herohoverd:rgba(189, 189, 189, 0.541);
+  --heroblure:none;
+  --Mainblure:blur(100px);
+  --Secondblure: blur(50px);
+  --button: #a8a8a862;
   --border:#e7e7e7;
   --filter:none;
   --selection:#f1bc00;
@@ -52,18 +59,32 @@ body {
 [data-theme='dark'] {
   --background: #1b1b1b;
   --backgroundtransparent: rgb(58 58 58 / 47%);
+  --mainTextColor: #8d6c00;
   --secondColor: rgba(33, 33, 33, 1);
-  --thirdcolor: rgba(33, 33, 33, 1);
+  --Micon: rgb(33 33 33 / 59%);
+  --thirdcolor: rgb(19, 19, 19);
   --footer: rgb(15, 15, 15);
   --textColor: white;
   --foreground: white;
-  --hero: #212121;
+  --hero: none;
   --buttomMenu: #161616;
   --heroMobile:#212121e0;
   --herohoverd: #212121d2;
   --border: #424242;
+  --button: #42424217;
   --filter: contrast(0);
   --selection:red;
   --menuboxshadow:0px 25px 37px var(--foreground);
+    /*----------------Box Shadow -------------*/
+  --boxShadow:inset rgb(133 133 133 / 40%) 20px 19px 14px,
+    rgb(73 73 73 / 30%) 4px 2px 6px 0px,
+    rgb(39 39 39 / 20%) 1px -2px 0px 0px;;
+  /*----------------Blur Effects -------------*/
   --Menubackground:white;
+  --heroblure: blur(200px);
+  --Mainblure: blur(100px);
+  --Secondblure: blur(200px);
+  /*---------------Gradiant Color -----------*/
+  --backgroundLinearGradiant: linear-gradient(91deg, #0d0c07, #08080e, #0d0a11, #0d090d);
+  --DarkLinearGradiant: linear-gradient(91deg, #1d1c19, #12121f, #140e1b, #120e12);
 }

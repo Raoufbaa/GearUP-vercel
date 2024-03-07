@@ -30,7 +30,7 @@
 .img{
     display: flex;
     background-color: antiquewhite;
-    width: 75%;
+    width: 85%;
     border-radius: 3PX;
     transition: ease-in-out .2s;
     margin: 20px auto;
@@ -60,7 +60,7 @@
     transition: ease-in-out .1s;
 }
 .container3 {
-    background-color: var(--thirdcolor);
+    background: var(--thirdcolor);
     color: var(--textColor);
     height: 120px;
     
@@ -174,7 +174,7 @@
     justify-content: center;
     width: 100vw;
     height: 75px;
-    background-color: var(--secondColor);
+    background: var(--DarkLinearGradiant);
     color: var(--textColor);
     position: relative;
     top: -8px;
@@ -334,6 +334,6 @@
         width: 158px !important;
     }
     .qty{
-        left: 95px;
+        left: 104px;
     }
 }

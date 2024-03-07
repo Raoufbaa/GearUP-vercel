@@ -4,10 +4,11 @@
     align-items: center;
     justify-content: space-between;
     padding: 0px 30px;
-    background-color: var(--background);
+    background: var(--backgroundLinearGradiant);
     color: var(--foreground);
     min-height: 80px;
     box-shadow: 0 0 10px rgb(0 0 0 / 10%);
+    z-index: -1;
 }
 
 .img {
@@ -78,7 +79,7 @@
     border: 2px dashed black;
 }
 .bto {
-    background-color: #a3a3a3;
+    background-color: #a3a3a366;
     border-radius: 4px;
     border-style: none;
     box-sizing: border-box;
@@ -118,6 +119,9 @@
     font-size: 1.1rem;
     margin-left: 60px;
     font-family: 'Gabarito', cursive;
+}
+.links:hover {
+    color: var(--mainTextColor);
 }
 
 .icons {
@@ -178,14 +182,14 @@
     position: absolute;
     top: 150%;
     right: 121px;
-    background-color: var(--background);
+    backdrop-filter: var(--Mainblure);
     animation: fadeIn 0.1s linear;
     z-index: 1000;
     border-radius: 10px;
 }
 
 .login {
-    background-color: var(--border);
+    background-color: var(--button);
     color: var(--mainTextColor);
     font-size: 1.25rem;
     border-radius: 5px;
@@ -241,14 +245,17 @@
 .ntitle {
     display: flex;
     align-items: center;
-    color: #975400;
+    color: var(--mainTextColor);
     justify-content: center;
     margin: 20px 30px;
     height: 80px;
     width: 235px;
     border-radius: 5px;
-    background-color: var(--border);
+    backdrop-filter: var(--Secondblure);
     font-size: 1.3rem;
+}
+.login:hover{
+background-color: var(--border);
 }
 
 .wishlist {
@@ -257,7 +264,7 @@
     position: fixed;
     top: 0;
     right: -300px;
-    background-color: var(--background);
+    backdrop-filter: var(--Mainblure);
     transition: right 0.3s ease-in-out;
     z-index: 999;
     overflow: auto;
@@ -268,7 +275,7 @@
     position: fixed;
     top: 0;
     right: -300px;
-    background-color: var(--background);
+    backdrop-filter: var(--Mainblure);
     transition: right 0.3s ease-in-out;
     z-index: 999;
     overflow: auto;
@@ -461,7 +468,7 @@
     height: 80px;
     width: 235px;
     border-radius: 5px;
-    background-color: var(--border);
+    backdrop-filter: var(--Secondblure);
     font-size: 1.45rem;
 }
 .loading {
@@ -491,13 +498,14 @@
     width: 100vw;
     color: var(--foreground);
     height: 61px;
-    background-color: var(--buttomMenu);
+    backdrop-filter: blur(10px);
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
     box-shadow:var(--menuboxshadow);
     z-index: 999999;
     align-items: center;
 }
+
 .Micon:hover{
     color: rgb(0, 89, 255);
     background-color: white;
@@ -556,7 +564,7 @@
     }
 
     .Micon {
-        background-color: var(--secondColor);
+        background-color: var(--Micon);
         border-radius: 50%;
         font-size: 1.6rem;
         width: 50px;

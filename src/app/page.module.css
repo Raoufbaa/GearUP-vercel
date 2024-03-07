@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Gabarito:wght@400;500;600&family=Poppins:wght@400;700;900&family=Young+Serif&display=swap');
 .main {
-  background-color: var(--background);
+  background: var(--backgroundLinearGradiant);
   color: var(--foreground);
   transition: ease-in-out .3s;
 }

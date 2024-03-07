@@ -13,7 +13,7 @@ export default function Hero() {
           width={1360}
           height={530}
           src={HeroBgdark}
-          style={{ filter: "blur(50px)" }}
+          style={{ filter: "blur(40px)" }}
           alt=""
         />
         <Image
@@ -23,7 +23,7 @@ export default function Hero() {
           src={itsDarkIcon}
           alt=""
         />
-        <div className={style.container} style={{ filter: "blur(50px)" }}>
+        <div className={style.StaticContainer} style={{ filter: "blur(30px)" }}>
           <Anim />
           <Link className={style.btn} href={"/Shop"}>
             BUY NOW

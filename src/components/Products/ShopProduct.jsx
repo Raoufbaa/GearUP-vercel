@@ -14,7 +14,7 @@ export default function Products() {
       parseInt(
         typeof localStorage !== "undefined" &&
           localStorage.getItem("productsPerPage")
-      ) || 3
+      ) || 12
   );
   const [selectedPriceRange, setSelectedPriceRange] = useState("");
   const [sortBy, setSortBy] = useState("");

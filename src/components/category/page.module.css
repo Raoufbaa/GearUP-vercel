@@ -32,6 +32,7 @@
 
 .imgC {
     border-radius: 5px;
+    box-shadow: var(--boxShadow);
 }
 
 .imgC:hover {
@@ -91,7 +92,10 @@
         flex-wrap: nowrap;
         gap: 5px;
     }
-
+    .title{
+        margin-top: 5px;
+    }
+    
     .imgC {
         width: 144px;
         height: 210px;

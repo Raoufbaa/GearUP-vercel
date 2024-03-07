@@ -22,6 +22,7 @@
 .container{
     position: absolute;
     background-color: var(--hero);
+    backdrop-filter:var(--heroblure);
     width: 450px;
     height: 350px;
     padding: 30px 30px;
@@ -33,6 +34,18 @@
 }
 .container:hover{
     background-color: var(--herohoverd);
+    transition: ease-in-out .3s;
+}
+.StaticContainer{
+    position: absolute;
+    background-color: var(--hero);
+    width: 450px;
+    height: 350px;
+    padding: 30px 30px;
+    border-radius: 10px;
+    top: 25%;
+    left: 60%;
+    color: var(--textColor);
     transition: ease-in-out .3s;
 }
 .toptitle{
@@ -76,12 +89,15 @@
     }
 }
 @media (max-width:768px) {
-    .container {
+        .herlo{
+         height: 480px;
+         }
+      
+        .container {
         width: 393px;
         height: 177px;
-        top: 66%;
+        top: 55%;
         left: 13px;
-        background-color: var(--heroMobile);
     }
     .loading {
         top: 10%;
@@ -103,7 +119,6 @@
     .container {
         width: 520px;
         height: 225px;
-        top: 61%;
         left: 10px;
     }
     .info {
@@ -125,7 +140,6 @@
     .container {
         width: 393px;
         height: 177px;
-        top: 66%;
         left: 10px;
     }
 }

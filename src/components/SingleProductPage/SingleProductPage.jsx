@@ -8,9 +8,12 @@ import { AiOutlineHeart } from "react-icons/ai";
 import styles from "./page.module.css";
 import Products from "@/components/Products/SProducts";
 import imgloading from "@/assets/product/CartLoading.svg";
+import Mainloading from "@/assets/nav/loading.svg";
 
 export default function SingleProductPage({ params }) {
   const [responseData, setResponseData] = useState(null);
+  const { loadingTimer } = useContext(Context);
+  const [selectedOptions, setSelectedOptions] = useState({});
   const [mobileInfo, setMobileInfo] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
   const [selectedVariant, setSelectedVariant] = useState(null);
@@ -55,13 +58,55 @@ export default function SingleProductPage({ params }) {
 
     fetchData(params.id);
   }, [params.id]);
+  useEffect(() => {
+    const findVariantByOptions = () => {
+      // Check if options are selected
+      if (Object.keys(selectedOptions).length === 0) return null;
+      if (!responseData || !responseData.variants) return null;
 
+      return responseData.variants.find((variant) => {
+        return variant.options.every((option) => {
+          return selectedOptions[option.option_id] === option.value;
+        });
+      });
+    };
+
+    setSelectedVariant(findVariantByOptions());
+  }, [selectedOptions, responseData]);
+  const findVariantByOptions = () => {
+    // Check if options are selected
+    if (Object.keys(selectedOptions).length === 0) return null;
+    if (!responseData || !responseData.variants) return null;
+
+    return responseData.variants.find((variant) => {
+      return variant.options.every((option) => {
+        return selectedOptions[option.option_id] === option.value;
+      });
+    });
+  };
+
+  // Function to handle option select
+  const handleOptionSelect = (optionId, value) => {
+    setSelectedOptions((prevOptions) => ({
+      ...prevOptions,
+      [optionId]: value,
+    }));
+
+    // Find and set the selected variant based on selected options
+    const variant = findVariantByOptions();
+    setSelectedVariant(variant);
+  };
   const handleSubImageClick = (imageURL) => {
     setSelectedImage(imageURL);
   };
   const { setCid } = useContext(Context);
 
   const HandleCreateCart = async () => {
+    const selectedVariant = findVariantByOptions();
+    if (!selectedVariant) {
+      console.error("No variant selected.");
+      return;
+    }
     try {
       const apiUrl = `${process.env.NEXT_PUBLIC_BACKEND}/store/carts`;
       const region_id = process.env.NEXT_PUBLIC_COUNTRY_ID;
@@ -245,8 +290,8 @@ export default function SingleProductPage({ params }) {
               <div className={styles.zoomedImage}>
                 <Image
                   src={selectedImage}
-                  width={600}
-                  height={610}
+                  width={510}
+                  height={520}
                   className={styles.selectedIMG}
                   alt={responseData ? responseData.title : ""}
                   priority
@@ -265,78 +310,124 @@ export default function SingleProductPage({ params }) {
           {mobileInfo ? (
             <div className={styles.imageColumn}>{subImages}</div>
           ) : null}
-          {responseData && (
-            <div className={styles.imageInfo}>
-              <h2>{responseData.title}</h2>
-              <p>{responseData.description}</p>
-              <p className={styles.price}>
-                Price:{" "}
-                {selectedVariantPrice !== null
-                  ? selectedVariantPrice + " DZD"
-                  : "N/A"}
-              </p>
 
-              {/* Variant Selection */}
-              <div className={styles.variantSelection}>
-                {responseData.variants.map((variant) => (
-                  <button
-                    key={variant.id}
-                    onClick={() => handleVariantSelect(variant)}
-                    className={styles.variant}
-                    disabled={variant.inventory_quantity === 0}
-                  >
-                    {variant.title}
-                  </button>
-                ))}
-              </div>
-              <div>
-                <button
-                  className={styles.createCartBtn}
-                  onClick={() => {
-                    HandleCreateCart();
-                    setLoading(true); // Start loading animation
-                  }}
-                  disabled={!session}
-                >
-                  {loading ? (
-                    <>
-                      <h3> Add to Cart</h3>
+          {loadingTimer ? (
+            <Image src={Mainloading} alt="" height={600} />
+          ) : (
+            responseData && (
+              <div className={styles.imageInfo}>
+                <h2>{responseData.title}</h2>
+                <p>{responseData.description}</p>
 
-                      <Image
-                        className={styles.loadingIMG}
-                        src={imgloading}
-                        width={68}
-                        height={68}
-                        alt=""
-                      />
-                    </>
+                <div className={styles.variantRow}>
+                  {responseData.options &&
+                    responseData.options.map((option) => {
+                      const uniqueValues = new Set();
+                      option.values.forEach((value) => {
+                        uniqueValues.add(value.value);
+                      });
+
+                      const uniqueValuesArray = Array.from(uniqueValues);
+
+                      return (
+                        <select
+                          className={styles.variant}
+                          key={option.id}
+                          value={selectedOptions[option.id] || ""}
+                          onChange={(e) =>
+                            handleOptionSelect(option.id, e.target.value)
+                          }
+                        >
+                          <option className={styles.variant} value="">
+                            Select {option.title}
+                          </option>
+                          {uniqueValuesArray.map((uniqueValue, index) => (
+                            <option
+                              className={styles.variant}
+                              key={index}
+                              value={uniqueValue}
+                            >
+                              {uniqueValue}
+                            </option>
+                          ))}
+                        </select>
+                      );
+                    })}
+                </div>
+
+                {selectedVariant ? (
+                  selectedVariant.inventory_quantity === 0 ? (
+                    <p className={styles.price}>Out of stock</p>
                   ) : (
-                    <h3> Add to Cart</h3>
+                    <p className={styles.price}>
+                      Price: {selectedVariant.prices[0].amount} DZD
+                    </p>
+                  )
+                ) : (
+                  <p className={styles.price}>This variant is not available</p>
+                )}
+
+                <div>
+                  {selectedVariant ? (
+                    selectedVariant.inventory_quantity > 0 ? (
+                      <button
+                        className={styles.createCartBtn}
+                        onClick={() => {
+                          HandleCreateCart();
+                          setLoading(true);
+                        }}
+                        disabled={!session}
+                      >
+                        {loading ? (
+                          <>
+                            <h3> Add to Cart</h3>
+
+                            <Image
+                              className={styles.loadingIMG}
+                              src={imgloading}
+                              width={68}
+                              height={68}
+                              alt=""
+                            />
+                          </>
+                        ) : (
+                          <h3> Add to Cart</h3>
+                        )}
+                      </button>
+                    ) : (
+                      <button className={styles.createCartBtn} disabled>
+                        Out of stock
+                      </button>
+                    )
+                  ) : (
+                    <button className={styles.createCartBtn} disabled>
+                      Select Options
+                    </button>
                   )}
-                </button>
-                <input
-                  className={styles.quantity}
-                  type="number"
-                  id="quantity"
-                  name="quantity"
-                  value={quantity}
-                  onChange={handleQuantityChange}
-                />
-                <button
-                  className={styles.addToWishlistBtn}
-                  disabled={
-                    responseData
-                      ? wishlistItem.findIndex(
-                          (item) => item.id === responseData.id
-                        ) !== -1
-                      : true
-                  }
-                  onClick={() => handleAddToWishlist(responseData)}
-                >
-                  <AiOutlineHeart />
-                </button>
+                  <input
+                    className={styles.quantity}
+                    type="number"
+                    id="quantity"
+                    name="quantity"
+                    value={quantity}
+                    onChange={handleQuantityChange}
+                  />
+                  <button
+                    className={styles.addToWishlistBtn}
+                    disabled={
+                      responseData
+                        ? wishlistItem.findIndex(
+                            (item) => item.id === responseData.id
+                          ) !== -1
+                        : true
+                    }
+                    onClick={() => handleAddToWishlist(responseData)}
+                  >
+                    <AiOutlineHeart />
+                  </button>
+                </div>
               </div>
-            </div>
+            )
           )}
         </div>
       </div>
@@ -351,7 +442,7 @@ export default function SingleProductPage({ params }) {
               <div className={styles.detailsRow}>
                 <p className={styles.height}>Height: {responseData.height}</p>
                 <p className={styles.width}>Width: {responseData.width}</p>
-                <p className={styles.length}>Lenght: {responseData.length}</p>
+                <p className={styles.length}>Length: {responseData.length}</p>
                 <p className={styles.weight}>Weight: {responseData.weight}</p>
               </div>
               <div className={styles.other}>
@@ -376,7 +467,7 @@ export default function SingleProductPage({ params }) {
                   {responseData.variants[0].inventory_quantity} in stock
                 </p>
                 <p>
-                  <span className={styles.Ospan}>Start From </span>
+                  <span className={styles.Ospan}>Price Around </span>
                   <span className={styles.price}>
                     {selectedVariantPrice !== null
                       ? `${selectedVariantPrice} DZD`
@@ -392,20 +483,4 @@ export default function SingleProductPage({ params }) {
       <Products name={"Recommended Products"} />
     </div>
   );
-}
-
-function getPriceInDZD(responseData) {
-  if (responseData) {
-    const variants = responseData.variants;
-    const dzdPrice = variants.map((variant) => {
-      const dzdPriceData = variant.prices.find(
-        (price) => price.currency_code === "dzd"
-      );
-      return dzdPriceData ? dzdPriceData.amount : "N/A";
-    });
-
-    return dzdPrice.length > 0 ? dzdPrice[0] : "N/A";
-  } else {
-    return "N/A";
-  }
 }

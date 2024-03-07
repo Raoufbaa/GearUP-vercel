@@ -360,7 +360,8 @@ export default function NavIcon() {
                           <BsFillTrashFill
                             className={style.Ctrash}
                             onClick={() => {
-                              removeWishlistItem(responseData.id);
+                              handleRemoveCartItem(item.id);
+                              setLoading(true);
                             }}
                           />
                         </div>
@@ -484,7 +485,7 @@ export default function NavIcon() {
               ) : null}
             </>
           ) : (
-            <p className={style.ntitle}>Login or register first!</p>
+            <p className={style.ntitle}>Login Or Register First!</p>
           )}
           {!session ? (
             <div className={style.sublink}>

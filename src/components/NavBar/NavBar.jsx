@@ -1,7 +1,7 @@
 import Link from "next/link";
 import style from "./page.module.css";
 import Image from "next/image";
-import navlogo from "@/assets/nav/marechal.png";
+import navlogo from "@/assets/nav/marechal.svg";
 import { links } from "@/components/NavBar/data";
 import NavIcon from "./NavIcon";
 

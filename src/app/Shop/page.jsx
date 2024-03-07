@@ -18,7 +18,7 @@ export default function Page() {
     return () => clearTimeout(timer);
   }, []);
   return (
-    <div>
+    <div style={{ background: "var(--backgroundLinearGradiant)" }}>
       <Header targetTimestamp="2023-10-11T16:41:41.319Z" />
       <ShopProduct />
       <ButtomHeader />
