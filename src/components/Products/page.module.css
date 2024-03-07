@@ -178,6 +178,7 @@
     color: var(--textColor);
     position: relative;
     top: -8px;
+    box-shadow: rgb(73 73 73 / 30%) 0px 0px 14px 0px;
 }
 .cnumber{
     display: flex;

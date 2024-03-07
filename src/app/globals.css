@@ -62,7 +62,7 @@ body {
   --mainTextColor: #8d6c00;
   --secondColor: rgba(33, 33, 33, 1);
   --Micon: rgb(33 33 33 / 59%);
-  --thirdcolor: rgb(19, 19, 19);
+  --thirdcolor: rgb(24, 24, 24,1);
   --footer: rgb(15, 15, 15);
   --textColor: white;
   --foreground: white;
@@ -78,7 +78,8 @@ body {
     /*----------------Box Shadow -------------*/
   --boxShadow:inset rgb(133 133 133 / 40%) 20px 19px 14px,
     rgb(73 73 73 / 30%) 4px 2px 6px 0px,
-    rgb(39 39 39 / 20%) 1px -2px 0px 0px;;
+    rgb(39 39 39 / 20%) 1px -2px 0px 0px;
+  --ProductsboxShadow:rgb(73 73 73 / 30%) 5px 12px 6px 0px;
   /*----------------Blur Effects -------------*/
   --Menubackground:white;
   --heroblure: blur(200px);
@@ -86,5 +87,5 @@ body {
   --Secondblure: blur(200px);
   /*---------------Gradiant Color -----------*/
   --backgroundLinearGradiant: linear-gradient(91deg, #0d0c07, #08080e, #0d0a11, #0d090d);
-  --DarkLinearGradiant: linear-gradient(91deg, #1d1c19, #12121f, #140e1b, #120e12);
+  --DarkLinearGradiant: linear-gradient(91deg, #0f0e08, #0b0b13, #0e0b13, #130d13);
 }
