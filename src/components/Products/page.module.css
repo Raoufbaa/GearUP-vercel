@@ -8,11 +8,11 @@
     border: 2px solid var(--thirdcolor);
     border-radius: 5px;
     text-decoration: none;
-    height: 363px;
+    height: -webkit-fill-available;
     color: black;
 }
 .maincontainer:hover{
-    border: 2px solid rgb(204, 204, 204);
+    border: 2px solid var(--ProductTransparent);
     transition: ease-in-out .1s;
 }
 .cards {
@@ -25,7 +25,7 @@
     grid-template-columns: repeat(4, 1fr);
     gap: 20px;
     overflow: hidden;
-        transition: ease-in-out .45s;
+    transition: ease-in-out .45s;
 }
 .img{
     display: flex;
@@ -36,7 +36,7 @@
     margin: 20px auto;
 }
 .card{
-    height: 320px;
+    height: auto;
 }
 .description{
     display: flex;
@@ -49,26 +49,26 @@
     font-family: 'Poppins', sans-serif;
 }
 .container2{
-    background-color: var(--thirdcolor);
+    backdrop-filter: blur(210px);
+    box-shadow: 0px -7px 6px 0px rgb(73 73 73 / 30%);
     color: var(--textColor);
     height: 100px;
     border-radius: 4px;
 }
 
 .container2:hover{
-    background-color:rgb(197, 197, 197);
+    background-color:var(--ProductTransparent);
     transition: ease-in-out .1s;
 }
 .container3 {
-    background: var(--thirdcolor);
+    backdrop-filter: blur(210px);
+    box-shadow: 0px -7px 6px 0px rgb(73 73 73 / 30%);
     color: var(--textColor);
-    height: 120px;
+    height: 116px;
     
 }
-
-
 .container3:hover {
-    background-color: rgb(197, 197, 197);
+    background-color: var(--ProductTransparent);
     transition: ease-in-out .1s;
 }
 
@@ -110,8 +110,8 @@
     margin: 10px auto;
     height: 50px;
     width: 150px;
-    color: orange;
-    border: 2.5px solid orange;
+    color: var(--mainTextColor);
+    border: 2.5px solid var(--mainTextColor);
     border-radius: 5px;
     background-color: transparent;
     font-family: 'Poppins', sans-serif;
@@ -119,7 +119,7 @@
     transition: ease-in-out .1s;
 }
 .btn:hover{
-    background-color: orange;
+    background-color: var(--mainTextColor);
     color: white;
     transition: ease-in-out .1s;
     font-size: 15px;

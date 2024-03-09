@@ -122,7 +122,7 @@
     font-size: 1rem;
 }
 .variant:hover,.variant:focus{
-    background-color: #131009;
+    background-color: var(--secondColor);
     
 }
 .variant:disabled{

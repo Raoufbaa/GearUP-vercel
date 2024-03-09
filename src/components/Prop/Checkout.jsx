@@ -6,6 +6,8 @@ import style from "@/app/Checkout/page.module.css";
 import Image from "next/image";
 import ButtomHeader from "@/components/ButtomHeader/ButtomHeader";
 import banner from "@/assets/checkout/banner.svg";
+import axios from "axios";
+import SavedShippingAddress from "../UpdateProfile/SavedShippingAdress";
 
 export default function Checkout() {
   const { data: session } = useSession();
@@ -21,7 +23,8 @@ export default function Checkout() {
     typeof localStorage !== "undefined" &&
       JSON.parse(localStorage.getItem("selectedAddress"))
   );
-  // State for form fields
+  const apiKey = process.env.NEXT_PUBLIC_SlickPAY_API_KEY;
+
   const [newAddress, setNewAddress] = useState({
     first_name: "",
     last_name: "",
@@ -137,10 +140,6 @@ export default function Checkout() {
     }
   }, [session, storedSelectedAddress]);
 
-  const submitPaymentForm = async (event) => {
-    event.preventDefault();
-    console.log("chargily payment");
-  };
   const submitPayment = async (event) => {
     if (event) {
       event.preventDefault();
@@ -237,15 +236,231 @@ export default function Checkout() {
         setSelectedAddress(null);
         localStorage.removeItem("selectedAddress");
       } else {
-        localStorage.setItem(
-          "selectedAddress",
-          JSON.stringify(selectedAddress)
-        );
       }
     }, 4000);
   }, [session, selectedAddress, setSelectedAddress]);
 
-  console.log("saved add from localstorage", storedSelectedAddress);
+  /*----------------------------------------*/
+  const submitPaymentForm = async (event) => {
+    event.preventDefault();
+    let accountID; // Declare accountID outside try blocks
+
+    const generateRandomRib = () => {
+      const ribLength = 20;
+      let rib = "";
+      for (let i = 0; i < ribLength; i++) {
+        rib += Math.floor(Math.random() * 10);
+      }
+      return rib;
+    };
+
+    // Check if the necessary user information is available
+    if (
+      !newAddress.first_name ||
+      !newAddress.last_name ||
+      !newAddress.phone ||
+      !newAddress.address_1 ||
+      !newAddress.city ||
+      !newAddress.province ||
+      !newAddress.postal_code
+    ) {
+      // If any of the required information is missing, display an error message and return
+      setErrMessage("Hey! Looks like we need your address.");
+      setTimeout(() => {
+        setErrMessage();
+      }, 4000);
+      return;
+    }
+
+    try {
+      const response = await axios.post(
+        "https://prodapi.slick-pay.com/api/v2/users/accounts",
+        {
+          rib: generateRandomRib(),
+          title: "Mr",
+          firstname: session.name,
+          lastname: session.Last_name,
+          address: "address of customer",
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${apiKey}`,
+          },
+        }
+      );
+      accountID = response.data.uuid;
+    } catch (error) {
+      console.error("Error creating account:", error);
+      // Display a meaningful error message
+      setErrMessage("Failed to create account. Please try again later.");
+      setTimeout(() => {
+        setErrMessage();
+      }, 4000);
+      return; // Return early if there's an error
+    }
+
+    try {
+      const checkout = await axios.post(
+        "https://prodapi.slick-pay.com/api/v2/users/invoices",
+        {
+          amount: cartData.total,
+          account: accountID,
+          firstname: session.name,
+          lastname: session.Last_name,
+          phone: newAddress.phone,
+          email: session.email,
+          address: "a Customer address",
+          items: cartData.items.map((item) => ({
+            name: item.title,
+            price: item.unit_price,
+            quantity: item.quantity,
+          })),
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${apiKey}`,
+          },
+        }
+      );
+      console.log(checkout.data.invoice.url);
+      window.location.href = checkout.data.invoice.url;
+    } catch (error) {
+      console.error("Error creating checkout:", error);
+      // Display a meaningful error message
+      setErrMessage("Failed to create checkout. Please try again later.");
+      setTimeout(() => {
+        setErrMessage();
+      }, 4000);
+    }
+
+    try {
+      await updateCartWithNewAddress();
+
+      const url = `${process.env.NEXT_PUBLIC_BACKEND}/store/carts/${cartData.id}/payment-sessions`;
+      const urlcomplete = `${process.env.NEXT_PUBLIC_BACKEND}/store/carts/${cartData.id}/complete`;
+
+      await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({}),
+      });
+      console.log("Payment session created for cart ID:", cartData.id);
+
+      await fetch(urlcomplete, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({}),
+      });
+      console.log("Cart completed ");
+      setMessage("Checkout Complete");
+    } catch (error) {
+      console.error("Error handling payment:", error);
+      setErrMessage("Failed To Complete Checkout");
+      setTimeout(() => {
+        setErrMessage();
+      }, 4000);
+    }
+    setCartDataReset((prev) => prev + 1);
+    setCartData(null);
+  };
+
+  /*----------------------------------------*/
+  const submitPaymentFormSaved = async (event) => {
+    event.preventDefault();
+    let accountID; // Declare accountID outside try blocks
+    const generateRandomRib = () => {
+      const ribLength = 20;
+      let rib = "";
+      for (let i = 0; i < ribLength; i++) {
+        rib += Math.floor(Math.random() * 10);
+      }
+      return rib;
+    };
+    try {
+      const response = await axios.post(
+        "https://prodapi.slick-pay.com/api/v2/users/accounts",
+        {
+          rib: generateRandomRib(),
+          title: "Mr",
+          firstname: session.name,
+          lastname: session.Last_name,
+          address: "address of customer",
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${apiKey}`,
+          },
+        }
+      );
+      accountID = response.data.uuid;
+    } catch (error) {
+      console.error("Error creating account:", error);
+    }
+    try {
+      const checkout = await axios.post(
+        "https://prodapi.slick-pay.com/api/v2/users/invoices",
+        {
+          amount: cartData.total,
+          account: accountID,
+          firstname: session.name,
+          lastname: session.Last_name,
+          phone: storedSelectedAddress.phone,
+          email: session.email,
+          address: "a Customer address",
+          items: cartData.items.map((item) => ({
+            name: item.title,
+            price: item.unit_price,
+            quantity: item.quantity,
+          })),
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${apiKey}`,
+          },
+        }
+      );
+      console.log(checkout.data.invoice.url);
+      window.location.href = checkout.data.invoice.url;
+    } catch (error) {
+      console.error("Error creating checkout:", error); // Fix error message here
+    }
+
+    event.preventDefault();
+
+    try {
+      const url = `${process.env.NEXT_PUBLIC_BACKEND}/store/carts/${cartData.id}/payment-sessions`;
+      const urlcomplete = `${process.env.NEXT_PUBLIC_BACKEND}/store/carts/${cartData.id}/complete`;
+
+      await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({}),
+      });
+      console.log("Payment session created for cart ID:", cartData.id);
+
+      await fetch(urlcomplete, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({}),
+      });
+      console.log("cart completed ");
+      setMessage("Checkout Compleat");
+    } catch (error) {
+      console.error("Error handling payment:", error);
+      setErrMessage("Failed To Complete Checkout");
+    }
+    setCartDataReset((prev) => prev + 1);
+    setCartData(null);
+  };
+  /*----------------------------------------*/
   return (
     <div>
       <h1 className={style.CWtitle}>Check Out</h1>
@@ -420,8 +635,7 @@ export default function Checkout() {
                         onChange={handlePaymentChange}
                       >
                         <option value="COD">Cash On Delivery</option>
-                        <option value="EDAHABIA">EDAHABIA</option>
-                        <option value="CIB">CIB</option>
+                        <option value="EDAHABIA">EDAHABIA/CIB</option>
                       </select>
                     </div>
                     <button
@@ -450,6 +664,7 @@ export default function Checkout() {
                 <Image
                   src={banner}
                   className={style.banner}
+                  style={{ marginTop: "20px" }}
                   width={550}
                   height={215}
                   alt="banner"
@@ -512,8 +727,7 @@ export default function Checkout() {
                           onChange={handlePaymentChange}
                         >
                           <option value="COD">Cash On Delivery</option>
-                          <option value="EDAHABIA">EDAHABIA</option>
-                          <option value="CIB">CIB</option>
+                          <option value="EDAHABIA">Payment Online </option>{" "}
                         </select>
                       </div>
                       <button
@@ -521,15 +735,19 @@ export default function Checkout() {
                         onClick={
                           paymentMethod === "COD"
                             ? submitPaymentSaved
-                            : submitPaymentForm
+                            : submitPaymentFormSaved
                         }
                       >
                         {paymentMethod === "COD"
                           ? "Proceed Orders"
                           : "Proceed Secure Payment"}
                       </button>
-                      <h1 className={style.succempty}>fff</h1>
-                      <h1 className={style.ERRempty}>{errmessage}</h1>
+                      {!message ? null : (
+                        <h1 className={style.sasuccempty}>{message}</h1>
+                      )}
+                      {!errmessage ? null : (
+                        <h1 className={style.saERRempty}>{errmessage}</h1>
+                      )}
                     </form>{" "}
                   </div>
                 </ul>

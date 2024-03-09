@@ -39,7 +39,13 @@ export default function SavedShippingAddress() {
             const newShippingAddresses = data.customer.shipping_addresses;
             setShippingAddresses(newShippingAddresses);
 
-            if (!selectedAddress && newShippingAddresses.length > 0) {
+            if (newShippingAddresses.length === 1) {
+              setSelectedAddress(newShippingAddresses[0]);
+              localStorage.setItem(
+                "selectedAddress",
+                JSON.stringify(newShippingAddresses[0])
+              );
+            } else if (newShippingAddresses.length > 1 && !selectedAddress) {
               const defaultAddress = newShippingAddresses[0];
               setSelectedAddress(defaultAddress);
               localStorage.setItem(

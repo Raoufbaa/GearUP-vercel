@@ -182,17 +182,10 @@ export default function NavIcon() {
       setCartDataReset(0);
     }
   }, [session, cartDataReset, cartData, setCartData, setCartDataReset]);
-  // useEffect(() => {
-  //   if (cartDataReset !== 0) {
-  //     setCartData(null);
-  //     localStorage.setItem("cart_data", JSON.stringify(null));
-  //     setCartDataReset(0);
-  //   }
-  // }, [cartDataReset]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      setLoading((prev) => !prev);
+      setLoading(false);
     }, 5000);
 
     return () => clearTimeout(timer);
@@ -301,8 +294,8 @@ export default function NavIcon() {
                                 {item.description}
                               </h6>
                               <h6 className={style.QtyPrice}>
-                                {item.quantity} X <span>{item.subtotal}</span>{" "}
-                                DZA
+                                {item.quantity} X{" "}
+                                <span>{item.subtotal / item.quantity}</span> DZA
                               </h6>
                             </section>
                             {loading ? (

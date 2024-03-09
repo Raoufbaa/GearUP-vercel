@@ -11,10 +11,10 @@
     margin-left: 70px;
     margin-bottom: 15px;
     min-width: 892px;
-    background-color: var(--background);
+    background-color: var(--transparentBakground);
     height: 690px;
     border-radius: 5px;
-    border:  3PX SOLID var(--border);
+    border:  2PX SOLID var(--border);
     overflow: auto;
 }
 .loadingivv{
@@ -56,24 +56,24 @@
     font-size: 1.1rem;
     margin: 10px 0px;
     margin-left: -155px;
-    color: #595959;
+    color: var(--mainTextColor);
     height: 45px;
     text-align: center;
     border-radius: 5px;
     border: none;
     width: 251px;
-    background-color: #dfdfdf;
+    background: var(--Micon);
 }
 .methodee {
     font-size: 1.1rem;
     margin: 10px 0px;
-    color: #595959;
+    color: var(--mainTextColor);
     height: 45px;
     text-align: center;
     border-radius: 5px;
     border: none;
     width: 251px;
-    background-color: #dfdfdf;
+    background: var(--DarkLinearGradiant);
     border: 2px dashed rgb(43, 43, 43);
     margin: 10px 131px;
     margin-top: 5px;
@@ -114,8 +114,8 @@
     height: 55px;
     gap: 20px;
     padding: 0px 10px;
-    color: white;
-    background-color: #222222;
+    color: var(--textColor);
+    background: var(--ProductTransparent);
     margin: 10px;
     align-items: center;
     justify-content: center;
@@ -248,6 +248,31 @@
     font-family: 'Poppins';
     background-color: rgba(18, 2, 2, 0.47);
 }
+.sasuccempty {
+    height: 37px;
+    font-size: 1.1rem;
+    padding-top: 3px;
+    text-align: center;
+    border: 2px dashed green;
+    margin: 20px auto;
+    width: 274px;
+    border-radius: 5px;
+    font-family: 'Poppins';
+    background-color: rgb(2 18 2 / 47%);
+}
+
+.saERRempty {
+    height: fit-content;
+    font-size: 1.1rem;
+    padding-top: 3px;
+    text-align: center;
+    border: 2px dashed rgb(128, 0, 0);
+    margin: 20px auto;
+    width: 274px;
+    border-radius: 5px;
+    font-family: 'Poppins';
+    background-color: rgba(18, 2, 2, 0.47);
+}
 .Pnamee {
     margin: 0px 130px;
     color: var(--foreground);
@@ -284,10 +309,10 @@
     margin: 8px;
     height: 45px;
     width: 330px;
-    background-color: var(--border);
+    background: var(--Micon);
     color: #000000;
     border-radius: 8px;
-    border: 2px dashed #c7c7c7;
+    border: 2px dashed var(--border);
     text-align: center;
     font-size: 1.1rem;
 }
@@ -356,7 +381,7 @@ margin: 0px 20px;
     height: 80px;
     width: 257px;
     border-radius: 5px;
-    background-color: var(--border);
+    background-color: var(--Micon);
     font-size: 1.3rem;
 }
 .CartItem {
@@ -399,6 +424,13 @@ margin: 0px 20px;
     font-size: 1rem;
 }
 @media (max-width:768px) {
+    .empty{
+        margin: 65px auto;
+    }
+    .sasuccempty{
+        width: 227px;
+        margin-left: 41px;
+    }
     .loadingivv{
         width: 375px;
     }
@@ -544,6 +576,9 @@ margin: 0px 20px;
     }
 }
 @media (max-width:414px) {
+    .sasuccempty {
+            margin-left:85px;
+        }
     .infocard {
         margin-left: 10px;
         min-width: 341px;
@@ -611,6 +646,9 @@ margin: 0px 20px;
         }
 }
 @media (max-width:393px) {
+    .sasuccempty {
+            margin-left: 76px;
+        }
     .infocard {
         margin-left: 10px;
         min-width: 341px;
@@ -628,6 +666,9 @@ margin: 0px 20px;
 
 }
 @media (max-width:375px) {
+    .sasuccempty {
+            margin-left: 55px;
+        }
     .infocard {
         margin-left: 10px;
         min-width: 341px;

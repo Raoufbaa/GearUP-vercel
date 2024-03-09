@@ -78,7 +78,7 @@ export default function Products({ name }) {
       <h1 className={style.maintitle}>{name}</h1>
       <div className={style.container}>
         <div
-          style={{ height: isOpened ? "710px" : "360px" }}
+          style={{ height: isOpened ? "745px" : "360px" }}
           className={style.cards}
         >
           {products

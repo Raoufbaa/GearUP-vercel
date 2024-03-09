@@ -9,30 +9,33 @@
   --DarkLinearGradiant: linear-gradient(91deg, #ebe4e4, #d0d7e2, #e8ecf3, #eee6ee);
   --backgroundtransparent: rgba(184, 184, 184, 0.459);
   --secondColor:#c0c0c0;
+  --ProductTransparent: rgba(153, 153, 153, 0.204);
+  --transparentBakground: rgba(153, 153, 153, 0.204);
   --Micon:#1f1f1f1c;
-  --thirdcolor:rgb(247, 247, 247);
+  --thirdcolor:rgb(231, 231, 231,1);
   --footer:rgb(241, 241, 241);
   --mainTextColor:#3a0117;
   --textColor:#2b2b2b;
   --foreground: black;
   --buttomMenu:#d8d8d8;
   --Menubackground:black;
-  --hero:#FFF3E3;
+  --hero:none;
   --heroMobile:#fff3e3b4;
   --herohoverd:rgba(189, 189, 189, 0.541);
-  --heroblure:none;
+  --heroblure:blur(20px);
   --Mainblure:blur(100px);
   --Secondblure: blur(50px);
   --button: #a8a8a862;
   --border:#e7e7e7;
   --filter:none;
-  --selection:#f1bc00;
+  --selection:#5f5e5e;
   --menuboxshadow:0px 2px 37px var(--foreground) ;
 }
 html,
 body {
   max-width: 100vw;
   overflow-x: hidden;
+  background: var(--backgroundLinearGradiant);
 }
 ::selection {
   background-color: var(--selection);
@@ -48,7 +51,7 @@ body {
   
 }
 ::-webkit-scrollbar-thumb {
-  background: rgb(32, 32, 32);
+  background: linear-gradient(91deg, #0d0c07, #08080e, #0d0a11, #0d090d);;
   padding: 10px;
   border-radius: 1px;
 }
@@ -57,8 +60,10 @@ body {
 }
 
 [data-theme='dark'] {
-  --background: #1b1b1b;
+  --background: #2422224a;
   --backgroundtransparent: rgb(58 58 58 / 47%);
+  --ProductTransparent:#3e3e3e34;
+  --transparentBakground: #1b1a1a4a;
   --mainTextColor: #8d6c00;
   --secondColor: rgba(33, 33, 33, 1);
   --Micon: rgb(33 33 33 / 59%);
@@ -73,7 +78,7 @@ body {
   --border: #424242;
   --button: #42424217;
   --filter: contrast(0);
-  --selection:red;
+  --selection:#30283b;
   --menuboxshadow:0px 25px 37px var(--foreground);
     /*----------------Box Shadow -------------*/
   --boxShadow:inset rgb(133 133 133 / 40%) 20px 19px 14px,

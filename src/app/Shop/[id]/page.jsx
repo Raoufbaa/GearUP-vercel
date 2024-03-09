@@ -3,7 +3,7 @@ import SingleProductPage from "@/components/SingleProductPage/SingleProductPage"
 
 export default function Page({ params }) {
   return (
-    <div>
+    <div style={{ background: "var(--backgroundLinearGradiant)" }}>
       <SingleProductPage params={params} />
     </div>
   );

@@ -130,8 +130,10 @@ export default function Products({ name }) {
                   />
                   <div
                     style={{
-                      width: isOpened ? "231px" : "224px",
-                      marginLeft: isOpened ? "0px" : "3.2px",
+                      width: isOpened ? "231px" : "219px",
+                      marginLeft: isOpened ? "0px" : "6px",
+                      position: "relative",
+                      top: !isOpened ? "7px" : "0px",
                     }}
                     className={style.container2}
                   >
