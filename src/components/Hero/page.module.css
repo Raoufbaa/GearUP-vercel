@@ -98,6 +98,8 @@
         height: 177px;
         top: 55%;
         left: 13px;
+        backdrop-filter: none;
+        background:var(--MobilelinearColor);
     }
     .loading {
         top: 10%;
