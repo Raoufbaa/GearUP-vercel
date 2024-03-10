@@ -269,6 +269,7 @@
     }
     .container2{
         width: 171px !important;
+        backdrop-filter: none;
     }
     .maincontainer{
         width: 182px;
@@ -314,6 +315,7 @@
      }
      .container3{
         height: 131px;
+        backdrop-filter: none;
      }
      .maintitle {
         font-size: 1.3rem;

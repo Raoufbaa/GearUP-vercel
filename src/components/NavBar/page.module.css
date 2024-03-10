@@ -578,6 +578,9 @@ background-color: var(--border);
     }
 }
 @media (max-width:768px) {
+.empty{
+        backdrop-filter: none;
+}
 .warn{
     bottom: 135px;  
 }
