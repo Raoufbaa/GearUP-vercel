@@ -95,5 +95,5 @@ body {
   --DarkLinearGradiant: linear-gradient(91deg, #0f0e08, #0b0b13, #0e0b13, #130d13);
  /*---------------Mobile Gradiant Color -----------*/
   --MobilelinearColor:linear-gradient(91deg, rgb(13 12 7 / 62%), rgb(8 8 14 / 73%), rgb(13 10 17 / 71%), rgb(13 9 13 / 89%));
-  --DarkenMobilelinearColor:linear-gradient(91deg, rgb(13 12 7 / 62%), rgb(8 8 14 / 73%), rgb(13 10 17 / 71%), rgb(13 9 13 / 89%));
+  --DarkenMobilelinearColor:linear-gradient(91deg, rgb(13 12 7 / 92%), rgb(8 8 14 / 91%), rgb(13 10 17 / 93%), rgb(13 9 13));
 }

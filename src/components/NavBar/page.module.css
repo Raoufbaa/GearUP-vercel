@@ -580,6 +580,10 @@ background-color: var(--border);
 @media (max-width:768px) {
 .empty{
         backdrop-filter: none;
+    }
+.cart{
+    backdrop-filter: none;
+    background:var(--DarkenMobilelinearColor);
 }
 .warn{
     bottom: 135px;  
