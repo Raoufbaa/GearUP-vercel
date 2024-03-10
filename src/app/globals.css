@@ -30,6 +30,9 @@
   --filter:none;
   --selection:#5f5e5e;
   --menuboxshadow:0px 2px 37px var(--foreground) ;
+  /*---------------Mobile Gradiant Color -----------*/
+  --MobilelinearColor: linear-gradient(91deg, rgb(255 254 249 / 62%), rgb(217 223 233 / 73%), rgb(247 250 255 / 71%), rgb(255 249 255 / 89%));
+  --DarkenMobilelinearColor: linear-gradient(91deg, rgb(255 254 249 / 92%), rgb(217 223 233 / 91%), rgb(247 250 255 / 93%), rgb(255 249 255));
 }
 html,
 body {

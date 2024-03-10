@@ -16,6 +16,7 @@ export default function Products(params) {
   const [selectedPriceRange, setSelectedPriceRange] = useState("");
   const [sortBy, setSortBy] = useState(""); // Sorting option: 'name' or 'price'
   const [sortOrder, setSortOrder] = useState("asc"); // Sorting order: 'asc' or 'desc'
+  const [windowWidth, setWindowWidth] = useState(0);
 
   useEffect(() => {
     async function fetchProducts() {
@@ -162,7 +163,15 @@ export default function Products(params) {
     "5000 - 10000 DZD",
     "10000 - 50000 DZD",
   ];
-  console.log("products", params.params.name);
+  useEffect(() => {
+    function handleResize() {
+      setWindowWidth(window.innerWidth);
+    }
+
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
   return (
     <div>
       <div className={style.inputcontainer}>
@@ -187,7 +196,7 @@ export default function Products(params) {
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search Products Here"
+            placeholder={windowWidth < 768 ? "Search" : "Search Products Here"}
           />
         </div>
         <div className={style.rightContent}>
@@ -201,7 +210,9 @@ export default function Products(params) {
               value={productsPerPage}
             />
           </div>
-          <label htmlFor="sortProducts">Sort By</label>
+          <label className={style.sortlable} htmlFor="sortProducts">
+            Sort By
+          </label>
           <select
             className={style.sort}
             id="sortProducts"

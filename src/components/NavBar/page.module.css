@@ -317,13 +317,13 @@ background-color: var(--border);
 
 .trash {
     position: relative;
-        color: #ffffff;
-        width: 100px;
-        margin: 5px 0px;
-        border-radius: 4px;
-        padding: 5px;
-        height: 35px;
-        background-color: var(--backgroundtransparent);
+    color: #ffffff;
+    width: 100px;
+    margin: 5px 0px;
+    border-radius: 4px;
+    padding: 5px;
+    height: 35px;
+    background-color: var(--backgroundtransparent);
 }
 
 .trash:hover {
@@ -570,16 +570,19 @@ background-color: var(--border);
 
     }
 }
-@media (max-width:991px) {}
 @media (max-width:870px) {
-    .Micon{
+.Micon{
         margin-left:55px
-    }
+}
 }
 @media (max-width:768px) {
 .empty{
         backdrop-filter: none;
-    }
+}
+.wishlist{
+    backdrop-filter: none;
+    background: var(--DarkenMobilelinearColor);
+}
 .cart{
     backdrop-filter: none;
     background:var(--DarkenMobilelinearColor);
@@ -657,6 +660,6 @@ background-color: var(--border);
         left: 80px;
     }
     .subMenu {
-     right: 23px;
+     right: 46px;
      }
 }
