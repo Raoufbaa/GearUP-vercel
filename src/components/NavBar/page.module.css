@@ -466,7 +466,6 @@ background-color: var(--border);
     height: 80px;
     width: 235px;
     border-radius: 5px;
-    backdrop-filter: var(--Secondblure);
     font-size: 1.45rem;
 }
 .loading {
