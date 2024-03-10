@@ -49,11 +49,11 @@
     font-family: 'Poppins', sans-serif;
 }
 .container2{
-    backdrop-filter: blur(210px);
     box-shadow: 0px -7px 6px 0px rgb(73 73 73 / 30%);
     color: var(--textColor);
     height: 100px;
     border-radius: 4px;
+    background: var(--DarkenMobilelinearColor)
 }
 
 .container2:hover{
@@ -61,10 +61,10 @@
     transition: ease-in-out .1s;
 }
 .container3 {
-    backdrop-filter: blur(210px);
     box-shadow: 0px -7px 6px 0px rgb(73 73 73 / 30%);
     color: var(--textColor);
     height: 116px;
+    background: var(--DarkenMobilelinearColor)
     
 }
 .container3:hover {
@@ -257,6 +257,10 @@
     left: 200%;
 }
 @media (max-width:768px) {
+    .price{
+        margin-left: 5px 5px;
+        font-size: 0.85rem;
+    }
     .cards{
         grid-template-columns:repeat(2, 1fr);
         width: 400px;
@@ -269,7 +273,8 @@
     }
     .container2{
         width: 171px !important;
-        backdrop-filter: none;
+        margin-left: 3px !important;
+        height: 93px;
     }
     .maincontainer{
         width: 182px;
@@ -283,7 +288,7 @@
     .priceFilter {
          font-size: 0.9rem;
          margin: 5px !important;
-        width: 35px;
+         width: 35px;
     }
     .PriceRangeLable{
         margin: 5px;
@@ -315,8 +320,9 @@
      }
      .container3{
         height: 131px;
-        backdrop-filter: none;
-     }
+        margin-left: 3px !important;
+        height: 93px;
+    }
      .maintitle {
         font-size: 1.3rem;
         margin: 10px;
@@ -337,6 +343,6 @@
         width: 158px !important;
     }
     .qty{
-        left: 104px;
+        left: 95px;
     }
 }

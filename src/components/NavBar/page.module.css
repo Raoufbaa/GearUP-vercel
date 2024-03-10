@@ -249,7 +249,6 @@
     height: 80px;
     width: 235px;
     border-radius: 5px;
-    backdrop-filter: var(--Secondblure);
     font-size: 1.3rem;
 }
 .login:hover{
@@ -576,9 +575,7 @@ background-color: var(--border);
 }
 }
 @media (max-width:768px) {
-.empty{
-        backdrop-filter: none;
-}
+
 .wishlist{
     backdrop-filter: none;
     background: var(--DarkenMobilelinearColor);
