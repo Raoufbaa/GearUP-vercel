@@ -139,13 +139,21 @@ export default function Products({ name }) {
                   >
                     <h3 className={style.Ptitle}>{product.title}</h3>
                     <h5 className={style.description}>{product.description}</h5>
-                    <h3 className={style.price}>{product.priceInDzd} DZA </h3>
+                    <h3 className={style.price}>
+                      {(product.priceInDzd / 100).toLocaleString("en-US", {
+                        minimumFractionDigits: window.innerWidth < 768 ? 0 : 2,
+                        maximumFractionDigits: window.innerWidth < 768 ? 0 : 2,
+                      })}{" "}
+                      DZD
+                    </h3>
+
                     <h5 className={style.qty}>Qty: {product.qty}</h5>
                   </div>
                 </motion.div>
               </Link>
             ))}
         </div>
+
         <div className={style.centerButton}>
           <button className={style.btn} onClick={toggleShowMore}>
             {isOpened ? "Show Less" : "Show More"}

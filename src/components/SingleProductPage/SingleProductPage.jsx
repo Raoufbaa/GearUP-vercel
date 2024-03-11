@@ -278,6 +278,7 @@ export default function SingleProductPage({ params }) {
   }, [loading]);
   const variants =
     responseData && responseData.variants ? responseData.variants : undefined;
+  console.log(responseData);
   return (
     <div>
       <div className={styles.productPage}>
@@ -358,10 +359,23 @@ export default function SingleProductPage({ params }) {
                 {selectedVariant ? (
                   selectedVariant.inventory_quantity === 0 ? (
                     <p className={styles.price}>Out of stock</p>
-                  ) : (
+                  ) : selectedVariant.prices.find(
+                      (price) => price.currency_code === "dzd"
+                    ) ? (
                     <p className={styles.price}>
-                      Price: {selectedVariant.prices[0].amount} DZD
+                      Price:{" "}
+                      {(
+                        selectedVariant.prices.find(
+                          (price) => price.currency_code === "dzd"
+                        ).amount / 100
+                      ).toLocaleString("en-US", {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2,
+                      })}{" "}
+                      DZD
                     </p>
+                  ) : (
+                    <p className={styles.price}>Price not available in DZD</p>
                   )
                 ) : (
                   <p className={styles.price}>This variant is not available</p>
@@ -370,30 +384,38 @@ export default function SingleProductPage({ params }) {
                 <div>
                   {selectedVariant ? (
                     selectedVariant.inventory_quantity > 0 ? (
-                      <button
-                        className={styles.createCartBtn}
-                        onClick={() => {
-                          HandleCreateCart();
-                          setLoading(true);
-                        }}
-                        disabled={!session}
-                      >
-                        {loading ? (
-                          <>
-                            <h3> Add to Cart</h3>
+                      selectedVariant.prices.find(
+                        (price) => price.currency_code === "dzd"
+                      ) ? (
+                        <button
+                          className={styles.createCartBtn}
+                          onClick={() => {
+                            HandleCreateCart();
+                            setLoading(true);
+                          }}
+                          disabled={!session}
+                        >
+                          {loading ? (
+                            <>
+                              <h3> Add to cart</h3>
 
-                            <Image
-                              className={styles.loadingIMG}
-                              src={imgloading}
-                              width={68}
-                              height={68}
-                              alt=""
-                            />
-                          </>
-                        ) : (
-                          <h3> Add to Cart</h3>
-                        )}
-                      </button>
+                              <Image
+                                className={styles.loadingIMG}
+                                src={imgloading}
+                                width={68}
+                                height={68}
+                                alt=""
+                              />
+                            </>
+                          ) : (
+                            <h3> Add to cart</h3>
+                          )}
+                        </button>
+                      ) : (
+                        <button className={styles.createCartBtn} disabled>
+                          Price not available in DZD
+                        </button>
+                      )
                     ) : (
                       <button className={styles.createCartBtn} disabled>
                         Out of stock
@@ -404,6 +426,7 @@ export default function SingleProductPage({ params }) {
                       Select Options
                     </button>
                   )}
+
                   <input
                     className={styles.quantity}
                     type="number"
@@ -483,4 +506,19 @@ export default function SingleProductPage({ params }) {
       <Products name={"Recommended Products"} />
     </div>
   );
+}
+function getPriceInDZD(responseData) {
+  if (responseData) {
+    const variants = responseData.variants;
+    const dzdPrice = variants.map((variant) => {
+      const dzdPriceData = variant.prices.find(
+        (price) => price.currency_code === "dzd"
+      );
+      return dzdPriceData ? dzdPriceData.amount : "N/A";
+    });
+
+    return dzdPrice.length > 0 ? dzdPrice[0] : "N/A";
+  } else {
+    return "N/A";
+  }
 }

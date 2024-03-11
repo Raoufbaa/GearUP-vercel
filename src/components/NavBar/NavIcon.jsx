@@ -295,7 +295,20 @@ export default function NavIcon() {
                               </h6>
                               <h6 className={style.QtyPrice}>
                                 {item.quantity} X{" "}
-                                <span>{item.subtotal / item.quantity}</span> DZA
+                                <span>
+                                  {/* {item.subtotal / item.quantity / 100} */}
+                                  {(
+                                    item.subtotal /
+                                    100 /
+                                    item.quantity
+                                  ).toLocaleString("en-US", {
+                                    minimumFractionDigits:
+                                      window.innerWidth < 768 ? 0 : 2,
+                                    maximumFractionDigits:
+                                      window.innerWidth < 768 ? 0 : 2,
+                                  })}{" "}
+                                </span>{" "}
+                                DZA
                               </h6>
                             </section>
                             {loading ? (
@@ -346,7 +359,8 @@ export default function NavIcon() {
                               {item.description}
                             </h6>
                             <h6 className={style.QtyPrice}>
-                              {item.quantity} X <span>{item.subtotal}</span> DZA
+                              {item.quantity} X{" "}
+                              <span>{item.subtotal / item.quantity}</span> DZA
                             </h6>
                           </section>
 

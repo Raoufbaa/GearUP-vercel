@@ -303,7 +303,7 @@ export default function Checkout() {
       const checkout = await axios.post(
         "https://prodapi.slick-pay.com/api/v2/users/invoices",
         {
-          amount: cartData.total,
+          amount: cartData.tax_total / 100,
           account: accountID,
           firstname: session.name,
           lastname: session.Last_name,
@@ -312,7 +312,7 @@ export default function Checkout() {
           address: "a Customer address",
           items: cartData.items.map((item) => ({
             name: item.title,
-            price: item.unit_price,
+            price: item.unit_price / 100,
             quantity: item.quantity,
           })),
         },
@@ -404,7 +404,7 @@ export default function Checkout() {
       const checkout = await axios.post(
         "https://prodapi.slick-pay.com/api/v2/users/invoices",
         {
-          amount: cartData.total,
+          amount: cartData.total / 100,
           account: accountID,
           firstname: session.name,
           lastname: session.Last_name,
@@ -413,7 +413,7 @@ export default function Checkout() {
           address: "a Customer address",
           items: cartData.items.map((item) => ({
             name: item.title,
-            price: item.unit_price,
+            price: item.unit_price / 100,
             quantity: item.quantity,
           })),
         },
@@ -595,7 +595,15 @@ export default function Checkout() {
                               <h4 className={style.Pname}>
                                 {item.title}{" "}
                                 <span className={style.Pricespan}>
-                                  {item.quantity}X{item.subtotal}
+                                  {item.quantity}X
+                                  {(
+                                    item.subtotal /
+                                    100 /
+                                    item.quantity
+                                  ).toLocaleString("en-US", {
+                                    minimumFractionDigits: 0,
+                                    maximumFractionDigits: 2,
+                                  })}
                                 </span>
                               </h4>
                             </section>
@@ -605,12 +613,27 @@ export default function Checkout() {
                     : null}
                   <p className={style.total}>
                     {cartData ? (
-                      <span>SubTotal: {cartData.subtotal} DZD</span>
+                      <span>
+                        SubTotal:{" "}
+                        {(cartData.subtotal / 100).toLocaleString("en-US", {
+                          minimumFractionDigits: 0,
+                          maximumFractionDigits: 0,
+                        })}{" "}
+                        DZD
+                      </span>
                     ) : null}
                   </p>
                   <p className={style.total}>
                     {cartData ? (
-                      <span> TaxTotal:{cartData.tax_total} DZD</span>
+                      <span>
+                        {" "}
+                        TaxTotal:
+                        {(cartData.tax_total / 100).toLocaleString("en-US", {
+                          minimumFractionDigits: 0,
+                          maximumFractionDigits: 0,
+                        })}{" "}
+                        DZD
+                      </span>
                     ) : null}
                   </p>
                   <p className={style.total}>
@@ -618,7 +641,11 @@ export default function Checkout() {
                       <span>
                         Total:{" "}
                         <span className={style.Pricespan}>
-                          {cartData.total} DZD
+                          {(cartData.total / 100).toLocaleString("en-US", {
+                            minimumFractionDigits: 0,
+                            maximumFractionDigits: 0,
+                          })}{" "}
+                          DZD
                         </span>{" "}
                       </span>
                     ) : null}
@@ -687,7 +714,15 @@ export default function Checkout() {
                                 <h4 className={style.Pnamee}>
                                   {item.title}{" "}
                                   <span className={style.Pricespan}>
-                                    {item.quantity}X{item.subtotal}
+                                    {item.quantity}X
+                                    {(
+                                      item.subtotal /
+                                      100 /
+                                      item.quantity
+                                    ).toLocaleString("en-US", {
+                                      minimumFractionDigits: 0,
+                                      maximumFractionDigits: 2,
+                                    })}
                                   </span>
                                 </h4>
                               </section>
@@ -697,12 +732,27 @@ export default function Checkout() {
                       : null}
                     <p className={style.totall}>
                       {cartData ? (
-                        <span>SubTotal: {cartData.subtotal} DZD</span>
+                        <span>
+                          SubTotal:
+                          {(cartData.subtotal / 100).toLocaleString("en-US", {
+                            minimumFractionDigits: 0,
+                            maximumFractionDigits: 0,
+                          })}
+                          DZD
+                        </span>
                       ) : null}
                     </p>
                     <p className={style.totall}>
                       {cartData ? (
-                        <span> TaxTotal:{cartData.tax_total} DZD</span>
+                        <span>
+                          {" "}
+                          TaxTotal:
+                          {(cartData.tax_total / 100).toLocaleString("en-US", {
+                            minimumFractionDigits: 0,
+                            maximumFractionDigits: 0,
+                          })}
+                          DZD
+                        </span>
                       ) : null}
                     </p>
                     <p className={style.totall}>
@@ -710,7 +760,11 @@ export default function Checkout() {
                         <span>
                           Total:{" "}
                           <span className={style.Pricespan}>
-                            {cartData.total} DZD
+                            {(cartData.total / 100).toLocaleString("en-US", {
+                              minimumFractionDigits: 0,
+                              maximumFractionDigits: 0,
+                            })}
+                            DZD
                           </span>{" "}
                         </span>
                       ) : null}
@@ -777,7 +831,17 @@ export default function Checkout() {
                                 {item.description}
                               </h6>
                               <h6 className={style.QtyPrice}>
-                                {item.quantity} X <span>{item.subtotal}</span>{" "}
+                                {item.quantity} X{" "}
+                                <span>
+                                  {(
+                                    item.subtotal /
+                                    100 /
+                                    item.quantity
+                                  ).toLocaleString("en-US", {
+                                    minimumFractionDigits: 0,
+                                    maximumFractionDigits: 0,
+                                  })}
+                                </span>{" "}
                                 DZA
                               </h6>
                             </section>
