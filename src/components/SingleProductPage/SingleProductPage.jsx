@@ -493,7 +493,13 @@ export default function SingleProductPage({ params }) {
                   <span className={styles.Ospan}>Price Around </span>
                   <span className={styles.price}>
                     {selectedVariantPrice !== null
-                      ? `${selectedVariantPrice} DZD`
+                      ? `${(selectedVariantPrice / 100).toLocaleString(
+                          "en-US",
+                          {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2,
+                          }
+                        )} DZD`
                       : "N/A"}
                   </span>
                 </p>

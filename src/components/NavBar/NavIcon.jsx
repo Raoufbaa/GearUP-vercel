@@ -296,7 +296,6 @@ export default function NavIcon() {
                               <h6 className={style.QtyPrice}>
                                 {item.quantity} X{" "}
                                 <span>
-                                  {/* {item.subtotal / item.quantity / 100} */}
                                   {(
                                     item.subtotal /
                                     100 /
