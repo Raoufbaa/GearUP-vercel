@@ -42,8 +42,6 @@ const RegistrationForm = () => {
       });
 
       if (recaptchaResponse.data.success) {
-        console.log(`reCAPTCHA Score: ${recaptchaResponse.data.score}`);
-
         const response = await axios.post(
           `${process.env.NEXT_PUBLIC_BACKEND}/store/customers`,
           formData,
