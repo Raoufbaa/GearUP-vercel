@@ -44,6 +44,7 @@
     font-family: 'Poppins', sans-serif;
     font-size: 19px;
     width: 450px;
+    color: var(--Menubackground);
 }
 
 .addToWishlistBtn {
@@ -368,7 +369,6 @@
     margin: -10px -168px;
     width: 350px;
     font-size: 22px;
-    color: #d1d1d1;
     left: 0px;
    }
 }
