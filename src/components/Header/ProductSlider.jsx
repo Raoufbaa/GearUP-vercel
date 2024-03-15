@@ -3,6 +3,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function ProductSlider({ products = [] }) {
   const NextArrow = ({ onClick }) => (
@@ -46,6 +47,9 @@ export default function ProductSlider({ products = [] }) {
             <div className={style.TextContainer}>
               <h3>{product.title}</h3>
               <p>{product.description}</p>
+              <Link className={style.btn} href={`/Shop/${product.id}`}>
+                BUY NOW
+              </Link>
             </div>
           </div>
         </div>

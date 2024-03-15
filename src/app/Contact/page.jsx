@@ -4,9 +4,11 @@ import style from "./page.module.css";
 import image from "@/assets/about/Living-room-wallpaper-1200x800.jpg";
 import { useForm, ValidationError } from "@formspree/react";
 function ContactForm() {
-  const [state, handleSubmit] = useForm("xyyqarwq");
+  const formId = process.env.NEXT_PUBLIC_FORMSPREE_ID;
+  console.log(formId);
+  const [state, handleSubmit] = useForm(formId);
   if (state.succeeded) {
-    return <p className={style.empty}>Thanks for joining!</p>;
+    return <p className={style.empty}>Thank you for reaching out to us!</p>;
   }
   return (
     <div className={style.contactContainer}>

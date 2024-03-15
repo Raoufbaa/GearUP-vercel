@@ -359,7 +359,19 @@ export default function NavIcon() {
                             </h6>
                             <h6 className={style.QtyPrice}>
                               {item.quantity} X{" "}
-                              <span>{item.subtotal / item.quantity}</span> DZA
+                              <span>
+                                {(
+                                  item.subtotal /
+                                  100 /
+                                  item.quantity
+                                ).toLocaleString("en-US", {
+                                  minimumFractionDigits:
+                                    window.innerWidth < 768 ? 0 : 2,
+                                  maximumFractionDigits:
+                                    window.innerWidth < 768 ? 0 : 2,
+                                })}{" "}
+                              </span>{" "}
+                              DZA
                             </h6>
                           </section>
 
@@ -447,7 +459,9 @@ export default function NavIcon() {
               <span className={style.Cartlength}>0</span>
             )}
           </>
-        ) : null
+        ) : (
+          <span className={style.Cartlength}>0</span>
+        )
       ) : null}
 
       {isSubMenuOpen && (
@@ -515,7 +529,12 @@ function getPriceInDZD(responseData) {
     const dzdPriceData = variant.prices.find(
       (price) => price.currency_code === "dzd"
     );
-    return dzdPriceData ? dzdPriceData.amount : "N/A";
+    return dzdPriceData
+      ? (dzdPriceData.amount / 100).toLocaleString("en-US", {
+          minimumFractionDigits: window.innerWidth < 768 ? 0 : 2,
+          maximumFractionDigits: window.innerWidth < 768 ? 0 : 2,
+        })
+      : "N/A";
   });
 
   return dzdPrice.length > 0 ? dzdPrice[0] : "N/A";

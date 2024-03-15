@@ -8,9 +8,9 @@ import Image from "next/image";
 export default function Gallery() {
   return (
     <div className={style.MainContainer}>
-      <Image // Use "img" element instead of "Image" component
+      <Image
         className={style.Pimg}
-        src={Pimg} // Use the imported image variable
+        src={Pimg}
         width={250}
         height={310}
         alt=""

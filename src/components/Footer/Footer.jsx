@@ -15,21 +15,17 @@ export default function Footer() {
         </div>
         <div className={style.flex}>
           <div className={style.links}>
-            <h3>Links</h3>
+            <h3 className={style.Linkt}>Quick Links</h3>
             {links.map((links) => (
               <Link className={style.link} key={links.id} href={links.url}>
                 {links.title}
               </Link>
             ))}
           </div>
-          <div className={style.socials}>
-            <h3 className={style.Social}>Social</h3>
+          <div className={style.Mainsocials}>
+            <h3 className={style.Social}>Follow Us</h3>
             {socials.map((socials) => (
-              <Link
-                className={style.socials}
-                key={socials.id}
-                href={socials.url}
-              >
+              <Link className={style.link} key={socials.id} href={socials.url}>
                 {socials.title}{" "}
               </Link>
             ))}

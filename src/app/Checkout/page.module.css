@@ -409,18 +409,18 @@ margin: 0px 20px;
 
 .cartVariant {
     text-align: center;
-    color: #523900;
-        font-size: .9rem;
+    color: var(--mainTextColor);
+    font-size: .9rem;
 }
 
 .QtyPrice {
     text-align: center;
-    color: #704f00;
-        font-size: 1rem;
+    color: var(--mainTextColor);
+    font-size: 1rem;
 }
 
 .QtyPrice span {
-    color: #704f00;
+    color: var(--mainTextColor);
     font-size: 1rem;
 }
 @media (max-width:768px) {

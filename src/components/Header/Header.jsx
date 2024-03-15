@@ -20,7 +20,13 @@ export default function Header() {
 
         const newProducts = sortedProducts.slice(0, 4);
 
-        setProducts(newProducts);
+        // Pass an array of objects containing product data and IDs to the ProductSlider
+        const productsWithIds = newProducts.map((product) => ({
+          ...product,
+          id: product.id, // Adding ID to the product object
+        }));
+
+        setProducts(productsWithIds);
       })
       .catch((error) => {
         console.error("Error fetching products:", error);

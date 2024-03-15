@@ -420,11 +420,11 @@ background-color: var(--border);
     top: -36px;
     right: 61px;
     padding: 0px;
-    padding-left: 4px;
-    padding-right: 5px;
+    padding-left: 3px;
+    padding-right: 4px;
     font-size: 1rem;
-    color: red;
-    background: #f7f7f7;
+    color: var(--cartlenghtcolor);
+    background: var(--cartbackgroundlenth);
     text-align: center;
     border-radius: 3px;
 }
@@ -450,10 +450,11 @@ background-color: var(--border);
     padding-left: 4px;
     padding-right: 4px;
     font-size: 1rem;
-    color: red;
-    background: #f7f7f7;
+    color: var(--cartlenghtcolor);
+    background: var(--cartbackgroundlenth);
     text-align: center;
     border-radius: 3px;
+    z-index: 100;
 }
 
 .empty {

@@ -41,7 +41,20 @@
     font-size: 2rem;
     color: white;
 }
-
+.btn{
+  background-color: var(--mainTextColor);
+    color: white;
+    position: absolute;
+    top: 255px;
+    text-decoration: none;
+    display: inline-flex;
+    padding: 25px 72px;
+    align-items: flex-start;
+    gap: 10px;
+    border-radius: 5px;
+    font-family: 'Poppins', sans-serif;
+  
+}
 @media (max-width:768px) {
   .Pimg{
     margin: 6px 0px;
