@@ -23,9 +23,8 @@ export async function POST(request, response) {
       error: "reCAPTCHA verification failed",
     });
   }
-  console.log("reCAPTCHA verification data", res.data); // Log verification data
+  // Log verification data
   if (res && res.data?.success && res.data?.score > 0.5) {
-    console.log("reCAPTCHA score:", res.data?.score); // Log reCAPTCHA score
     return NextResponse.json({
       success: true,
       score: res.data.score,

@@ -2,11 +2,11 @@
   margin: 50px auto;
   text-align: center;
   padding: 10px 10px;
-  background-color: var(--background);
+  background: var(--DarkLinearGradiant);
   max-width:450px;
   height: auto;
   border-radius: 10px;
-  border: 3px solid rgb(119, 119, 119);
+  border: 3px solid var(--cartbackgroundlenth);
 }
 .title{
     font-size: 1.5rem;
@@ -26,8 +26,8 @@
     border: none;
     text-align: center;
     font-size: 1.1rem;
-    background-color: var(--border);
-    border: 2px dashed;
+    background: var(--DarkLinearGradiant);
+    border: 2px dashed var(--Menubackground);
 }
 .empty{
     height: 37px;
